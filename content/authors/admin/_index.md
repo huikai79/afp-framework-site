@@ -45,7 +45,7 @@ show_download: false
 
 button:
   text: "Download Whitepaper"
-  url: "files/afp-whitepaper.pdf"
+  url: "uploads/afp-whitepaper.pdf"
 
 # Interests (可选，简短点)
 interests:
