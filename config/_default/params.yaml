@@ -61,7 +61,26 @@ features:
 
 homepage:
   sections:
-  - hero
-  - about
-  - publication
+    - hero
+    - about
+    - people_founder
+    - publication
+
+blocks:
+  about:
+    show_avatar: false
+
+blocks:
+  people_founder:
+    title: "Founder"
+    subtitle: ""
+    type: "people"          # 使用内建 People 积木
+    content:
+      users: ["admin"]      # 只显示 admin 这位作者
+      show_social: true
+      show_interests: false
+    design:
+      columns: 1
+      avatar_shape: "circle"
+      avatar_size: "sm"     # 〔假设〕支持 xs/sm/md/lg;不支持时会退回默认
 
