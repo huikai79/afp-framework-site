@@ -14,7 +14,7 @@ marketing:
     site_type: Person
     local_business_type: ''
     org_name: ''
-    description: 'The highly-customizable Hugo Academic theme powered by Hugo Blox Builder. Easily create your personal academic website.'
+    description: 'Antifragile Prompting (AFP) Framework · SafeLoop'
     twitter: 'GetResearchDev'
   analytics:
     google_analytics: ''
@@ -35,7 +35,7 @@ header:
     show_search: true
     show_theme_chooser: true
     logo:
-      text: "Your Name"
+      text: "Antifragile Prompting (AFP)"
 
 # Site footer
 footer:
@@ -58,3 +58,10 @@ features:
     enable: false
   privacy_pack:
     enable: false
+
+homepage:
+  sections:
+  - hero
+  - about
+  - publication
+
