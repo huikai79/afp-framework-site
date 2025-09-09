@@ -46,8 +46,6 @@ interests:
 
 ## Executive Summary
 
-Antifragile Prompting (AFP) Framework 不是一份技巧手册，而是一套能在复杂与不确定环境中保持稳健的提示框架。  
-
-它强调「抗脆弱」思维——系统在承压时，不仅避免崩溃，还能通过反馈循环实现进化。  
-
-SafeLoop 作为 AFP 的核心机制，提供安全、可迭代的提示闭环，确保 AI 输出始终在可控范围内成长。
+Antifragile Prompting (AFP) Framework is not a handbook of tricks, but a resilient prompting system designed for complexity and uncertainty.
+It emphasizes antifragility: under stress, the system does not collapse, but adapts and evolves through feedback loops.
+SafeLoop, the core mechanism of AFP, provides a secure, iterative prompting cycle to keep AI outputs under control while continuously improving.
