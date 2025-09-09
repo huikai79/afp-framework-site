@@ -70,6 +70,10 @@ homepage:
 blocks:
   about:
     show_avatar: false
+    actions:
+      - label: "Download Whitepaper"
+        url: "/uploads/afp-whitepaper.pdf"
+        icon: download
 
 blocks:
   people_founder:
