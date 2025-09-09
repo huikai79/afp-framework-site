@@ -35,6 +35,7 @@ header:
     show_search: true
     show_theme_chooser: true
     logo:
+      image: "afp-logo.png"    # 放在 assets/media/ 里
       text: "Antifragile Prompting (AFP)"
 
 # Site footer
