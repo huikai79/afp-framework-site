@@ -40,6 +40,13 @@ profiles:
   - icon: brands/linkedin
     url: https://www.linkedin.com/
 
+# Disable default CV button
+cv_download: false
+
+button:
+  text: "Download Whitepaper"
+  url: "files/afp-whitepaper.pdf"
+
 # Interests (可选，简短点)
 interests:
   - Prompt Engineering
