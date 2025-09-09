@@ -22,6 +22,10 @@ highlight_name: true
 # Role/position/tagline
 role: Founder, AFP (SafeLoop)
 
+avatar:
+  image: "me.jpg"
+  shape: circle
+
 # Organizations/Affiliations to display in Biography blox
 organizations:
   - name: SafeLoop Initiative
