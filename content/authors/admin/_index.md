@@ -1,6 +1,6 @@
 ---
 # Display name
-title: 庄辉恺 CHING HUI KAI
+title: CHING HUI KAI
 
 # Full name (for SEO)
 first_name: Antifragile
