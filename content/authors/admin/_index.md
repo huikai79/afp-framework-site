@@ -41,7 +41,7 @@ profiles:
     url: https://www.linkedin.com/
 
 # Disable default CV button
-cv_download: false
+show_download: false
 
 button:
   text: "Download Whitepaper"
