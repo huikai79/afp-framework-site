@@ -1,6 +1,6 @@
 ---
 # Display name
-title: Antifragile Prompting (AFP) Framework
+title: 庄辉恺 CHING HUI KAI
 
 # Full name (for SEO)
 first_name: Antifragile
@@ -20,7 +20,7 @@ superuser: true
 highlight_name: true
 
 # Role/position/tagline
-role: SafeLoop · A resilient strategy for AI prompting
+role: Founder, AFP (SafeLoop)
 
 # Organizations/Affiliations to display in Biography blox
 organizations:
