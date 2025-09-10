@@ -1,3 +1,7 @@
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+本项目的文本与文档内容采用 **Creative Commons Attribution 4.0 International (CC BY 4.0)** 授权；转载与演绎需署名“庄辉恺 / Antifragile Prompting (AFP) Framework”。
+
+
 # [Hugo Academic CV Theme](https://github.com/HugoBlox/theme-academic-cv)
 
 [![Screenshot](.github/preview.webp)](https://hugoblox.com/templates/)
