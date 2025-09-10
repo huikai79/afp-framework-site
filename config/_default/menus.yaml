@@ -4,18 +4,31 @@
   #   The weight parameter defines the order that the links will appear in.
 
 main:
-  - name: Home
+  # 中文菜单
+  - name: 首页
     url: /
     weight: 10
-  - name: Executive Summary
+  - name: 执行摘要
     url: /#about
     weight: 20
-  - name: Whitepaper
+  - name: 白皮书
     url: /publication/
     weight: 30
-  - name: GitHub
-    url: https://github.com/huikai79/afp-framework-site
-    weight: 40
   - name: License
     url: /license/
+    weight: 90
+
+main.en:
+  # English menu
+  - name: Home
+    url: /en/
+    weight: 10
+  - name: Executive Summary
+    url: /en/#about
+    weight: 20
+  - name: Whitepaper
+    url: /en/publication/
+    weight: 30
+  - name: License
+    url: /en/license/
     weight: 90
