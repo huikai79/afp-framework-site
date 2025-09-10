@@ -34,8 +34,9 @@ header:
     fixed_to_top: true
     show_search: true
     show_theme_chooser: true
+    show_language_switcher: true   # ← 开启语言切换器
     logo:
-      image: "afp-logo.png"    # 放在 assets/media/ 里
+      image: "afp-logo.png"
       text: "Antifragile Prompting (AFP)"
 
 # Site footer
