@@ -12,7 +12,7 @@ main:
     url: /en/#about
     weight: 20
   - name: System Prompt
-    url: /post/2025-09-10-afp-basic-framework/
+    url: /en/post/2025-09-10-afp-basic-framework/
     weight: 30
   - name: Whitepaper
     url: /en/publication/
@@ -20,7 +20,6 @@ main:
   - name: License
     url: /en/license/
     weight: 90
-
 
 main.zh:
   # 中文菜单
@@ -32,10 +31,11 @@ main.zh:
     weight: 20
   - name: 系统提示
     url: /post/2025-09-10-afp-basic-framework/
-    weight: 20
+    weight: 30
   - name: 白皮书
     url: /publication/
-    weight: 30
-  - name: License
+    weight: 40
+  - name: 许可协议
     url: /license/
     weight: 90
+
