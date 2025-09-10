@@ -1,56 +1,59 @@
+[English version available here](README.en.md)
+
+# Antifragile Prompting (AFP) Framework · SafeLoop
+
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-本项目的文本与文档内容采用 **Creative Commons Attribution 4.0 International (CC BY 4.0)** 授权；转载与演绎需署名“CHING HUI KAI / Antifragile Prompting (AFP) Framework”。
 
+**Antifragile Prompting（AFP）骨架开放 · 正式署名声明**
 
-# [Hugo Academic CV Theme](https://github.com/HugoBlox/theme-academic-cv)
+---
 
-[![Screenshot](.github/preview.webp)](https://hugoblox.com/templates/)
+## 版权声明与署名机制说明
 
-The Hugo **Academic CV Template** empowers you to easily create your job-winning online resumé, showcase your academic publications, and create online courses or knowledge bases to grow your audience.
+**作品名称**：Antifragile Prompting Framework（简称 **AFP**），同义为 **SafeLoop**  
+**版本**：普通使用版｜精简稳健骨架  
 
-[![Get Started](https://img.shields.io/badge/-Get%20started-ff4655?style=for-the-badge)](https://hugoblox.com/templates/)
-[![Discord](https://img.shields.io/discord/722225264733716590?style=for-the-badge)](https://discord.com/channels/722225264733716590/742892432458252370/742895548159492138)  
-[![Twitter Follow](https://img.shields.io/twitter/follow/GetResearchDev?label=Follow%20on%20Twitter)](https://twitter.com/GetResearchDev)
+### 为什么选择公开？
+公开即是版权主权的证明。开源与学术界广泛认可：将作品上传至 GitHub 或预印本平台即可生成时间戳，成为有效的原创记录。这有效避免“创意被抢”。  
 
-️**Trusted by 250,000+ researchers, educators, and students.** Highly customizable via the integrated **no-code, Hugo Blox Builder**, making every site truly personalized ⭐⭐⭐⭐⭐
+### 许可与承诺
+- **署名权归属**：原作者为 **庄辉恺（CHING HUI KAI）**。欢迎使用、修改与引用，但请在使用中明确注明原作者与发布日期。  
+- **使用许可**：本项目文本与文档内容采用 **Creative Commons Attribution 4.0 International (CC BY 4.0)** 授权；转载与演绎需署名“CHING HUI KAI / Antifragile Prompting (AFP) Framework”。  
+- **版本更新**：未来若推出 AFP 完整版或白皮书，将继续开放并更新时间戳，欢迎持续关注与反馈。  
 
-Easily write technical content with plain text Markdown, LaTeX math, diagrams, RMarkdown, or Jupyter, and import publications from BibTeX.
+### 公开更安全
+一旦公开，版权与时间戳都不容易被质疑。倘若他人复制却不署名，互联网记录将成为社区监督与版权证明支持。  
 
-[Check out the latest demo](https://academic-demo.netlify.app/) of what you'll get in less than 10 minutes, or [get inspired by our academics and research groups](https://hugoblox.com/creators/).
+---
 
-The integrated [**Hugo Blox Builder**](https://hugoblox.com) and CMS makes it easy to create a beautiful website for free. Edit your site in the CMS (or your favorite editor), generate it with [Hugo](https://github.com/gohugoio/hugo), and deploy with GitHub or Netlify. Customize anything on your site with widgets, light/dark themes, and language packs.
+## 项目说明
 
-- 👉 [**Get Started**](https://hugoblox.com/templates/)
-- 📚 [View the **documentation**](https://docs.hugoblox.com/)
-- 💬 [Chat with the **Hugo Blox Builder community**](https://discord.gg/z8wNYzb) or [**Hugo community**](https://discourse.gohugo.io)
-- 🐦 Twitter: [@GetResearchDev](https://twitter.com/GetResearchDev) [@GeorgeCushen](https://twitter.com/GeorgeCushen) [#MadeWithHugoBlox](https://twitter.com/search?q=%23MadeWithHugoBlox&src=typed_query)
-- ⬇️ **Automatically import your publications from BibTeX** with the [Hugo Academic CLI](https://github.com/GetRD/academic-file-converter)
-- 💡 [Suggest an improvement](https://github.com/HugoBlox/hugo-blox-builder/issues)
-- ⬆️ **Updating?** View the [Update Guide](https://docs.hugoblox.com/reference/update/) and [Release Notes](https://github.com/HugoBlox/hugo-blox-builder/releases)
+Antifragile Prompting (AFP) / SafeLoop 是一个 **抗脆弱提示框架**，核心目标是在复杂与不确定环境中，仍能保持稳定与迭代成长。  
 
-## We ask you, humbly, to support this open source movement
+- **SafeLoop**：AFP 的核心机制，一个安全、可迭代的提示闭环。  
+- **定位**：不是“技巧合集”，而是一套稳健的认知与提示骨架。  
+- **应用**：适合学术研究、AI 安全、教育与复杂决策场景。  
 
-Today we ask you to defend the open source independence of the Hugo Blox Builder and themes 🐧
+---
 
-We're an open source movement that depends on your support to stay online and thriving, but 99.9% of our creators don't give; they simply look the other way.
+## 如何使用
 
-### [❤️ Click here to become a Sponsor, unlocking awesome perks such as _exclusive academic templates and blocks_](https://hugoblox.com/sponsor/)
+1. 在 `content/publication/` 下查看并引用 **AFP Whitepaper**。  
+2. 网站首页的 “Download Whitepaper” 按钮可下载最新 PDF。  
+3. 引用时请按照 CC BY 4.0 要求署名：  
+   > “Antifragile Prompting (AFP) Framework – SafeLoop”, 庄辉恺 (CHING HUI KAI), CC BY 4.0.  
 
-<!--
-<p align="center"><a href="https://hugoblox.com/templates/" target="_blank" rel="noopener"><img src="https://hugoblox.com/uploads/readmes/academic_logo_200px.png" alt="Hugo Academic Theme for Hugo Blox Builder"></a></p>
--->
+---
 
-## Demo image credits
+## 贡献与反馈
 
-- [Unsplash](https://unsplash.com)
+- 欢迎提交 Issue 或 Pull Request，改进 AFP 白皮书或提示骨架。  
+- 讨论与想法可通过 GitHub Issues 或邮件联系。  
 
-## Latest news
+---
 
-<!--START_SECTION:news-->
+## License
 
-- [Easily make an academic CV website to get more cites and grow your audience 🚀](https://hugoblox.com/blog/easily-make-academic-website/)
-- [What&#39;s new in v5.2?](https://hugoblox.com/blog/whats-new-in-v5.2/)
-- [What&#39;s new in v5.1?](https://hugoblox.com/blog/whats-new-in-v5.1/)
-- [Version 5.0 (February 2021)](https://hugoblox.com/blog/version-5.0-february-2021/)
-- [Version 5.0 Beta 3 (February 2021)](https://hugoblox.com/blog/version-5.0-beta-3-february-2021/)
-<!--END_SECTION:news-->
+本项目文本与文档内容采用  
+[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) 许可。
+
