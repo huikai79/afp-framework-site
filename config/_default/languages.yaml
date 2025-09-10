@@ -4,20 +4,24 @@
 
 # 多语言配置
 en:
-  languageCode: en
   languageName: English
-  weight: 1   # 改为最小
+  weight: 1
+  contentDir: content
   title: Antifragile Prompting (AFP) Framework
   params:
-    description: "Antifragile Prompting (AFP) Framework · SafeLoop whitepaper and skeleton"
+    description: "Antifragile Prompting (AFP) Framework · SafeLoop whitepaper and skeleton"  
+  menu:
+    main: main
 
 zh:
-  languageCode: zh
-  languageName: 简体中文
+  languageName: 中文
   weight: 2
+  contentDir: content
   title: 抗脆弱提示框架（AFP）
   params:
-    description: "Antifragile Prompting (AFP) Framework · SafeLoop 白皮书与提示骨架"
+    description: "抗脆弱白皮书与提示框架（AFP）· Antifragile Prompting (AFP) Framework · SafeLoop"
+  menu:
+    main: main.zh
 
 
   # Uncomment for multi-lingual sites, and move English content into `en` sub-folder.
