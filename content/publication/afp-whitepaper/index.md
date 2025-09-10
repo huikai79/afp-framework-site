@@ -1,8 +1,8 @@
 ---
 title: "Antifragile Prompting (AFP) Framework Whitepaper"
 authors:
-  - 庄辉恺
-date: 2025-01-01
+  - CHING HUI KAI
+date: 2025-09-09
 publication_types: ["report"]
 featured: true
 
