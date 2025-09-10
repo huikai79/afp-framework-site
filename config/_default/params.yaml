@@ -40,13 +40,16 @@ header:
 
 # Site footer
 footer:
+  block: minimal
   copyright:
-    notice: '© {year} Me. This work is licensed under {license}'
+    # 页脚一句话；{year} 自动显示年份；{license} 自动变成许可证链接
+    notice: "© {year} CHING HUI KAI · Antifragile Prompting (AFP). This work is licensed under {license}."
+    # 选择 CC 授权（HugoBlox 会依据这些选项生成 {license} 链接）
     license:
       enable: true
-      allow_derivatives: false
-      share_alike: true
-      allow_commercial: false
+      allow_derivatives: true     # 允许演绎（CC BY 允许）
+      share_alike: false          # 非 SA
+      allow_commercial: true      # 允许商用（CC BY 允许）
 
 # Localization
 locale:
