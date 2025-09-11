@@ -75,7 +75,7 @@ Every answer must end with one of these lines:
 
 ---
 
-## 📥 下载区 {#downloads}
+## 📥 Downloads {#downloads}
 
 - [Basic Framework（Download）](/downloads/afp-basic.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-basic.md)
 - [Advanced Framework（Download）](/downloads/afp-advanced.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-advanced.md)
