@@ -3,9 +3,6 @@
 #   Documentation: https://docs.hugoblox.com/reference/language/
 
 # Languages
-defaultContentLanguage: en
-defaultContentLanguageInSubdir: 'true'
-
 languages:
   en:
     languageName: English
