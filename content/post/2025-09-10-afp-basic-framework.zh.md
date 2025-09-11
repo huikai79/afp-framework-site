@@ -53,6 +53,7 @@ Every answer must end with:
 Basic Framework = A stable prompt foundation for everyday tasks.
 
 ---
+```
 
 ### 中文说明
 ⚠️ 提示：AI 实际执行时请使用英文原文，以下仅为摘要说明。
