@@ -70,7 +70,7 @@ Basic Framework = A stable prompt foundation for everyday tasks.
 
 #### 📥 下载区 {#downloads}
 
-以下提供三个版本的 AFP System Prompt，建议复制 **英文原文** 使用；中文说明仅供理解。  
+以下提供三个版本的 AFP 系统提示，建议复制 **英文原文** 使用；中文说明仅供理解。  
 可选择站内下载（.md 文件）或 GitHub Raw（纯文本）。
 
 - **普通使用版（Basic Framework）**  
