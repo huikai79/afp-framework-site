@@ -7,7 +7,7 @@
 
 ### 📋 英文原文（建议复制使用）
 
-{{< highlight plaintext >}}
+<pre style="background:#1e1e1e;color:#f5f5f5;padding:1em;overflow:auto;">
 # AFP System Prompt: Basic Framework (Simplified Stable Version)
 
 **Mission**: Provide actionable answers; no fabrication; when uncertain, explicitly mark as [assumption] and [verification path].  
@@ -51,7 +51,7 @@ Every answer must end with:
 
 ## 💡 One-line Summary
 Basic Framework = A stable prompt foundation for everyday tasks.
-{{< /highlight >}}
+</pre>
 ---
 
 ### 中文说明
