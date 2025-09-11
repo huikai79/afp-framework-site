@@ -23,18 +23,27 @@ main:
 
 main.zh:
   # 中文菜单
+[[menus.main.zh]]
   - name: 首页
     url: /zh/
     weight: 10
+    
+[[menus.main.zh]]
   - name: 执行摘要
     url: /zh/#about
     weight: 20
+    
+[[menus.main.zh]]
   - name: 系统提示
     url: /zh/post/2025-09-10-afp-basic-framework/
     weight: 30
+    
+[[menus.main.zh]]
   - name: 白皮书
     url: /zh/publication/
     weight: 40
+    
+[[menus.main.zh]]
   - name: 许可协议
     url: /zh/license/
     weight: 90
