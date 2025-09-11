@@ -3,6 +3,10 @@
 #   Documentation: https://docs.hugoblox.com/reference/language/
 
 # 多语言配置
+defaultContentLanguage: en
+defaultContentLanguageInSubdir: true
+languages:
+
 en:
   languageName: English
   weight: 1
@@ -13,12 +17,13 @@ en:
 
 
 zh:
-  languageCode: zh-Hans
+  languageName: 中文（简体）
   weight: 2
   contentDir: content/zh
   title: 反脆弱提示框架（AFP）
   params:
     description: "反脆弱白皮书与提示框架（AFP）· Antifragile Prompting (AFP) Framework · SafeLoop"
+
 
 
   # Uncomment for multi-lingual sites, and move English content into `en` sub-folder.
