@@ -1,6 +1,6 @@
 ---
 # Display name
-title: Antifragile Prompting (AFP) Framework
+title: 反脆弱提示（AFP）框架
 
 # Full name (for SEO)
 first_name: Antifragile
@@ -42,7 +42,7 @@ interests:
 
 ---
 
-## Executive Summary
+## 执行概要
 
 Antifragile Prompting (AFP) Framework 不是一份技巧手册，而是一套能在复杂与不确定环境中保持稳健的提示框架。  
 
