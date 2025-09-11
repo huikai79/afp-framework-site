@@ -17,7 +17,7 @@ links:
 # doi: "10.1234/afp.whitepaper.2025"
 ---
 
-## 摘要
+## Abstract
 
 The Antifragile Prompting (AFP) Framework is not a collection of prompt tricks,  
 but a resilient system designed to thrive in complexity and uncertainty.  
