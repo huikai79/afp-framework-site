@@ -38,6 +38,8 @@ header:
     logo:
       image: "afp-logo.png"
       text: "Antifragile Prompting (AFP)"
+      favicon: "favicon.ico"
+
 
 # Site footer
 footer:
