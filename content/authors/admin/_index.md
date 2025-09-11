@@ -37,8 +37,6 @@ profiles:
     url: https://github.com/huikai79/afp-framework-site
   - icon: brands/x
     url: https://twitter.com/GetResearchDev
-  - icon: brands/linkedin
-    url: https://www.linkedin.com/
 
 # Disable default CV button
 show_download: false
