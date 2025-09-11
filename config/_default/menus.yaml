@@ -23,7 +23,7 @@ main:
     weight: 90
 
 main.zh:
-  - name.zh: 首页
+  - name: 首页
     url: /zh/
     weight: 10
   - name: 执行摘要
