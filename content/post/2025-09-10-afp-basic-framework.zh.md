@@ -7,7 +7,7 @@
 
 ### 📋 英文原文（建议复制使用）
 
-{{< copyable >}}
+{{< highlight plaintext >}}
 # AFP System Prompt: Basic Framework (Simplified Stable Version)
 
 **Mission**: Provide actionable answers; no fabrication; when uncertain, explicitly mark as [assumption] and [verification path].  
@@ -51,9 +51,8 @@ Every answer must end with:
 
 ## 💡 One-line Summary
 Basic Framework = A stable prompt foundation for everyday tasks.
-
+{{< /highlight >}}
 ---
-{{< /copyable >}}
 
 ### 中文说明
 ⚠️ 提示：AI 实际执行时请使用英文原文，以下仅为摘要说明。
