@@ -2,27 +2,26 @@
 #   Create a section for each of your site's languages.
 #   Documentation: https://docs.hugoblox.com/reference/language/
 
-# 多语言配置
+# Languages
 defaultContentLanguage: en
 defaultContentLanguageInSubdir: true
+
 languages:
+  en:
+    languageName: English
+    weight: 1
+    contentDir: content
+    title: Antifragile Prompting (AFP) Framework
+    params:
+      description: "Antifragile Prompting (AFP) Framework · SafeLoop whitepaper and skeleton"
 
-en:
-  languageName: English
-  weight: 1
-  contentDir: content
-  title: Antifragile Prompting (AFP) Framework
-  params:
-    description: "Antifragile Prompting (AFP) Framework · SafeLoop whitepaper and skeleton"  
-
-
-zh:
-  languageName: 中文（简体）
-  weight: 2
-  contentDir: content/zh
-  title: 反脆弱提示框架（AFP）
-  params:
-    description: "反脆弱白皮书与提示框架（AFP）· Antifragile Prompting (AFP) Framework · SafeLoop"
+  zh:
+    languageName: 中文（简体）
+    weight: 2
+    contentDir: content/zh
+    title: 反脆弱提示框架（AFP）
+    params:
+      description: "反脆弱白皮书与提示框架（AFP）· Antifragile Prompting (AFP) Framework · SafeLoop"
 
 
 
