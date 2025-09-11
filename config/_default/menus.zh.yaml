@@ -1,5 +1,5 @@
 
-main.zh:
+main:
   - name: 首页
     url: /zh/
     weight: 10
