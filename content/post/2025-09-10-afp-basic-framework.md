@@ -6,8 +6,6 @@ tags: ["AFP", "SafeLoop", "System Prompt"]
 categories: ["Prompt Engineering"]
 ---
 
-## AFP System Prompt: Basic Framework (Simplified Stable Version)
-
 > **Mission**: Provide actionable answers; no fabrication; when uncertain, explicitly mark as [assumption] and [verification path].  
 > **Language**: English (adaptable to other contexts).
 
@@ -74,3 +72,11 @@ Every answer must end with one of these lines:
 #### 💡 One-line Summary
 
 **Basic Framework = A stable prompt foundation for everyday tasks.**
+
+---
+
+## 📥 下载区 {#downloads}
+
+- [普通使用版（站内下载）](/downloads/afp-basic.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-basic.md)
+- [进阶版（站内下载）](/downloads/afp-advanced.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-advanced.md)
+- [母提示框架版（站内下载）](/downloads/afp-master.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-master.md)
