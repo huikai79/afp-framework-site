@@ -13,7 +13,7 @@ en:
 
 
 zh:
-  languageName: 中文
+  languageName: Chinese
   languageCode: zh-Hans
   weight: 2
   contentDir: content/zh
