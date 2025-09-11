@@ -1,6 +1,6 @@
 
 main.zh:
-  - name: '首页'
+  - name: 首页
     url: /zh/
     weight: 10
   - name: 执行摘要
