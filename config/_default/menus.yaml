@@ -5,8 +5,6 @@
 
 # Navigation Links (YAML)
 
-# Navigation Links (YAML)
-
 main:
   # English menu
   - name: Home
@@ -42,3 +40,5 @@ main.zh:
   - name: 许可协议
     url: /zh/license/
     weight: 90
+
+
