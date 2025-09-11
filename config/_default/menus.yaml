@@ -6,7 +6,6 @@
 # Navigation Links (YAML)
 
 main:
-  # English menu
   - name: Home
     url: /
     weight: 10
@@ -24,7 +23,6 @@ main:
     weight: 90
 
 main.zh:
-  # 中文菜单
   - name: 首页
     url: /zh/
     weight: 10
@@ -40,5 +38,6 @@ main.zh:
   - name: 许可协议
     url: /zh/license/
     weight: 90
+
 
 
