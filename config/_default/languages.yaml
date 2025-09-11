@@ -17,9 +17,9 @@ zh:
   languageCode: zh-Hans
   weight: 2
   contentDir: content/zh
-  title: 抗脆弱提示框架（AFP）
+  title: 反脆弱提示框架（AFP）
   params:
-    description: "抗脆弱白皮书与提示框架（AFP）· Antifragile Prompting (AFP) Framework · SafeLoop"
+    description: "反脆弱白皮书与提示框架（AFP）· Antifragile Prompting (AFP) Framework · SafeLoop"
 
 
   # Uncomment for multi-lingual sites, and move English content into `en` sub-folder.
