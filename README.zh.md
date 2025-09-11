@@ -1,4 +1,4 @@
-[English version available here](README.en.md)
+[English version available here](README.md)
 
 # Antifragile Prompting (AFP) Framework · SafeLoop
 
