@@ -77,6 +77,6 @@ Every answer must end with one of these lines:
 
 ## 📥 下载区 {#downloads}
 
-- [普通使用版（站内下载）](/downloads/afp-basic.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-basic.md)
-- [进阶版（站内下载）](/downloads/afp-advanced.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-advanced.md)
-- [母提示框架版（站内下载）](/downloads/afp-master.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-master.md)
+- [Basic Framework（Download）](/downloads/afp-basic.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-basic.md)
+- [Advanced Framework（Download）](/downloads/afp-advanced.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-advanced.md)
+- [Mother Framework（Download）](/downloads/afp-master.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-master.md)
