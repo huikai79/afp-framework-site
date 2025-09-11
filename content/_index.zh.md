@@ -14,7 +14,7 @@ sections:
       username: admin           # 读取 content/authors/admin/_index.md
       text: ""                  # 正文在作者档里写
       button:
-        text: Download Whitepaper
+        text: 下载白皮书
         url: /uploads/afp-whitepaper.zh.pdf   # PDF 放 static/uploads/afp-whitepaper.zh.pdf
     design:
       css_class: dark
