@@ -13,7 +13,6 @@ en:
 
 
 zh:
-  languageName: Zh
   languageCode: zh-Hans
   weight: 2
   contentDir: content/zh
