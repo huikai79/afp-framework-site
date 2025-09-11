@@ -10,18 +10,16 @@ en:
   title: Antifragile Prompting (AFP) Framework
   params:
     description: "Antifragile Prompting (AFP) Framework · SafeLoop whitepaper and skeleton"  
-  menu:
-    main: main
+
 
 zh:
   languageName: 中文
+  languageCode: zh-Hans
   weight: 2
   contentDir: content/zh
   title: 抗脆弱提示框架（AFP）
   params:
     description: "抗脆弱白皮书与提示框架（AFP）· Antifragile Prompting (AFP) Framework · SafeLoop"
-  menu:
-    main: main.zh
 
 
   # Uncomment for multi-lingual sites, and move English content into `en` sub-folder.
