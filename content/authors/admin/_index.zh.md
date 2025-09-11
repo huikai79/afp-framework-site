@@ -1,10 +1,10 @@
 ---
 # Display name
-title: 反脆弱提示（AFP）框架
+title: 庄辉恺
 
 # Full name (for SEO)
-first_name: Antifragile
-last_name: Prompting Framework
+first_name: 反脆弱
+last_name: 提示框架
 
 # Pronouns (optional)
 pronouns: it/its
@@ -20,11 +20,11 @@ superuser: true
 highlight_name: true
 
 # Role/position/tagline
-role: SafeLoop · A resilient strategy for AI prompting
+role: 反脆弱提示框架 AFP（SafeLoop）创始人
 
 # Organizations/Affiliations to display in Biography blox
 organizations:
-  - name: SafeLoop Initiative
+  - name: 安全回路 (SafeLoop) 计划
     url: https://afpframework.org/
 
 # Social network links
@@ -35,10 +35,9 @@ profiles:
     url: https://twitter.com/GetResearchDev
 
 # Interests (可选，简短点)
-interests:
-  - Prompt Engineering
-  - AI Safety
-  - Antifragile Systems
+兴趣:
+  - 提示工程
+  - AI 写作
 
 ---
 
