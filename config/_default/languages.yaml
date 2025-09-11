@@ -3,7 +3,6 @@
 #   Documentation: https://docs.hugoblox.com/reference/language/
 
 # Languages
-languages:
   en:
     languageName: English
     weight: 1
