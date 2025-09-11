@@ -5,6 +5,8 @@
 
 # Navigation Links (YAML)
 
+# Navigation Links (YAML)
+
 main:
   # English menu
   - name: Home
@@ -21,4 +23,22 @@ main:
     weight: 40
   - name: License
     url: /license/
+    weight: 90
+
+main.zh:
+  # 中文菜单
+  - name: 首页
+    url: /zh/
+    weight: 10
+  - name: 执行摘要
+    url: /zh/#about
+    weight: 20
+  - name: 系统提示
+    url: /zh/post/2025-09-10-afp-basic-framework/
+    weight: 30
+  - name: 白皮书
+    url: /zh/publication/
+    weight: 40
+  - name: 许可协议
+    url: /zh/license/
     weight: 90
