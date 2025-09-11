@@ -16,7 +16,7 @@ zh:
   languageName: 中文
   languageCode: zh-Hans
   weight: 2
-  contentDir: content/zh
+  contentDir: content
   title: 抗脆弱提示框架（AFP）
   params:
     description: "抗脆弱白皮书与提示框架（AFP）· Antifragile Prompting (AFP) Framework · SafeLoop"
