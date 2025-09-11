@@ -14,6 +14,7 @@ languages:
 
   zh:
     languageName: 中文（简体）
+    languageCode: zh-Hans
     weight: 2
     contentDir: content/zh
     title: 反脆弱提示框架（AFP）
