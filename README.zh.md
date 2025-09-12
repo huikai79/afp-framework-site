@@ -47,8 +47,8 @@ Antifragile Prompting (AFP) / SafeLoop 是一个 **抗脆弱提示框架**，核
 - **输出骨架**：结论≤30字 → 三要点 → 步骤清单 → 对立方案 → 一句洞见。  
 - **模式档位**：FLEX（默认）、GUARD（风险提醒）、AUDIT（全审计）。  
 
-👉 完整英文系统提示请见 [`docs/system-prompt.md`](docs/system-prompt.md) 。
-👉 完整中文系统提示请见 [`docs/system-prompt.zh.md`](docs/system-prompt.zh.md) 。
+👉 完整英文系统提示： [`docs/system-prompt.md`](docs/system-prompt.md) 
+👉 完整中文系统提示： [`docs/system-prompt.zh.md`](docs/system-prompt.zh.md) 
 
 ---
 
