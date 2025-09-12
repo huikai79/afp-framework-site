@@ -8,6 +8,26 @@ design:
   spacing: "6rem"
 
 sections:
+
+  # —— 新增 Banner Block 开始
+  - block: hero
+    id: banner-chapter5
+    content:
+      title: "第5章实验与评估（计划稿）已公开"
+      subtitle: "预注册章节发布中，欢迎反馈与合作"
+      cta:
+        label: "查看计划中章节"
+        url: /publication/whitepaper/chapter5   # 或者你第五章的实际路径
+    design:
+      css_class: highlight
+      background:
+        image:
+          filename: banner-background.jpg   # 可选，放个背景图
+        gradient_start: '#ff8c00'
+        gradient_end: '#ff4500'
+      text_color_light: true
+  # —— 新增 Banner Block 结束
+
   # ① Executive Summary（以 Biography 块承载）
   - block: resume-biography-3
     content:
