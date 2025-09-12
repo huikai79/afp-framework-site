@@ -44,6 +44,23 @@ designed to remain stable and adaptive in complex, uncertain environments.
 
 ---
 
+## Execution Rules (Summary)
+
+This project follows a **minimal operational protocol** to ensure  
+clarity, reproducibility, and antifragile growth:
+
+- **Safety & Evidence**: compliance > all; cite sources or mark as [assumption] + [verification path].  
+- **Delivery**: always ship a minimal viable answer (MVP) first, refine later.  
+- **Dual Options**: every solution provides a default + fallback path.  
+- **Risk Rule (Barbell)**: 85% safe base + 15% exploratory testing.  
+- **Output Skeleton**: ≤30-word conclusion → 3 key points → steps → dual options → final insight.  
+- **Modes**: FLEX (default), GUARD (risk reminders), AUDIT (full review).  
+
+👉 For the **full system prompt**, see [`docs/system-prompt.md`](docs/system-prompt.md)  
+or the appendix in the AFP Whitepaper.
+
+---
+
 ## How to Use
 
 1. See `content/publication/` for the **AFP Whitepaper** entry.  
