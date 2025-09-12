@@ -31,7 +31,7 @@ organizations:
 profiles:
   - icon: brands/github
     url: https://github.com/huikai79/afp-framework-site
-  - icon: brands/x
+ # - icon: brands/x
     url: https://twitter.com/GetResearchDev
 
 # Interests (可选，简短点)
