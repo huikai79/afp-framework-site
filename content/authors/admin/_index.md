@@ -46,10 +46,10 @@ button:
   url: "uploads/afp-whitepaper.pdf"
 
 # Interests (可选，简短点)
-interests:
-  - Prompt Engineering
-  - AI Creation
-  - Reading
+# interests:
+#  - Prompt Engineering
+#  - AI Creation
+#  - Reading
 
 ---
 
