@@ -7,7 +7,7 @@ first_name: 反脆弱
 last_name: 提示框架
 
 # Pronouns (optional)
-pronouns: it/its
+# pronouns: it/its
 
 # Status emoji
 status:
