@@ -5,11 +5,11 @@ date: 2025-09-09
 type: landing
 
 design:
-  spacing: "6rem"
+  spacing: "3rem"
   
 sections:
   # ⓪ Banner (English site)
-  - block: feature
+  - block: hero
     content:
       title: "📢 Pre-registered Chapter Released"
       text: "**Chapter 5: Experiments & Evaluation (Planned Draft)** is now public. Feedback and collaboration are welcome."
