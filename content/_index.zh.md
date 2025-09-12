@@ -4,9 +4,6 @@ title: ""
 date: 2025-09-09
 type: landing
 
-design:
-  spacing: "6rem"
-
 sections:
   # ⓪ Banner 提示区（新增）
   - block: hero
