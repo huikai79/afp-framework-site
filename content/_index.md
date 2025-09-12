@@ -5,7 +5,7 @@ date: 2025-09-09
 type: landing
 
 design:
-  spacing: "3rem"
+  spacing: "6rem"
   
 sections:
   - block: hero
