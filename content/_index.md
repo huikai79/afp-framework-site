@@ -8,18 +8,19 @@ design:
   spacing: "6rem"
 
 sections:
-  # ⓪ Banner (English site)
-  - block: hero
+  # ⓪ Compact Banner / Announcement
+  - block: feature
     content:
       title: "📢 Pre-registered Chapter Released"
-      text: "**Chapter 5: Experiments & Evaluation (Planned Draft)** is now public. Feedback and collaboration are welcome."
+      subtitle: "**Chapter 5: Experiments & Evaluation (Planned Draft)** is now public. Feedback and collaboration are welcome."
+      items: []
       button:
         text: View Chapter
         url: /publication/#ch5
     design:
       background:
-        color: light
-      spacing: "3rem"
+        color: warning   # 可换成 light / primary / dark，看主题风格
+      spacing: "2rem"
 
   # ① Executive Summary（以 Biography 块承载）
   - block: resume-biography-3
