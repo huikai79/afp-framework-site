@@ -4,6 +4,16 @@
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
+## Notice on Chapter 5: Experiments & Evaluation (Planned Draft)
+
+This section of the AFP Whitepaper is a **pre-registered draft**.  
+It currently only contains the experimental design framework,  
+and does not yet include results or analysis.  
+
+✅ Purpose: transparency, authorship timestamp, open feedback.  
+🔄 Status: will be updated with data once experiments are executed.  
+📢 Feedback: suggestions and collaboration proposals are welcome.
+
 **Official Attribution Statement for the AFP / SafeLoop Skeleton (Public Release)**
 
 ---
