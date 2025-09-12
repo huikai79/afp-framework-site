@@ -5,7 +5,7 @@
 
 ---
 
-#### 📋 英文原文（建议复制使用）
+##### 📋 英文原文（建议复制使用）
 
 <pre style="background:#1e1e1e;color:#f5f5f5;padding:1em;overflow:auto;">
 ## AFP System Prompt: Basic Framework (Simplified Stable Version)
@@ -54,7 +54,7 @@ Basic Framework = A stable prompt foundation for everyday tasks.
 </pre>
 ---
 
-#### 中文说明
+##### 中文说明
 ⚠️ 提示：AI 实际执行时请使用英文原文，以下仅为摘要说明。
 
 - **使命**：提供可执行答案，不编造；遇不确定要标注〔假设〕与〔验证路径〕。  
