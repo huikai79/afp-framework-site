@@ -5,17 +5,17 @@ date: 2025-09-09
 type: landing
 
 sections:
-  # ⓪ Compact Banner / Announcement (markdown+alert)
-  - block: markdown
+  - block: hero
     content:
-      title: ""
-      text: >-
-        {{% alert warning %}}
-        **Pre-registered Chapter Released** — *Chapter 5: Experiments & Evaluation (Planned Draft)* is now public.
-        [View Chapter](/publication/#ch5)
-        {{% /alert %}}
+      title: "📢 Pre-registered Chapter Released"
+      text: "Chapter 5: Experiments & Evaluation (Planned Draft) is now public. Feedback and collaboration are welcome."
+      buttons:
+        - text: 查看章节
+          url: /publication/#ch5
     design:
-      columns: "1"
+      min_height: "25vh"
+      background:
+        color: light
 
   # ① Executive Summary（以 Biography 块承载）
   - block: resume-biography-3
