@@ -46,7 +46,7 @@ designed to remain stable and adaptive in complex, uncertain environments.
 
 ## Execution Rules (Summary)
 
-This project follows a **minimal operational protocol** to ensure  
+This project website follows a **minimal operational protocol** to ensure  
 clarity, reproducibility, and antifragile growth:
 
 - **Safety & Evidence**: compliance > all; cite sources or mark as [assumption] + [verification path].  
