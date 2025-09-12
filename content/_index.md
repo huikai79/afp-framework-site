@@ -9,15 +9,15 @@ design:
 
 sections:
   - block: hero
-  content:
-    title: "📢 Pre-registered Chapter Released"
-    text: "**Chapter 5: Experiments & Evaluation (Planned Draft)** is now public. Feedback and collaboration are welcome."
-    button:
-      text: View Chapter
-      url: /publication/#ch5
-  design:
-    background:
-      color: light
+    content:
+      title: "📢 Pre-registered Chapter Released"
+      text: "**Chapter 5: Experiments & Evaluation (Planned Draft)** is now public. Feedback and collaboration are welcome."
+      button:
+        text: View Chapter
+        url: /publication/#ch5
+    design:
+      background:
+        color: light
 
   # ⓪ Banner (English site)
   - block: feature
