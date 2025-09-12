@@ -4,20 +4,10 @@ title: ""
 date: 2025-09-09
 type: landing
 
+design:
+  spacing: "6rem"
+  
 sections:
-  # ⓪ Banner 提示区（新增）
-  - block: hero
-    content:
-      title: "📢 预注册章节发布中"
-      text: "《第5章：实验与评估（计划稿）》 已公开，欢迎反馈与合作。"
-      button:
-        text: 查看章节
-        url: /publication/#ch5
-    design:
-      background:
-        color: light
-      spacing: "3rem"  
-
   # ① 执行概要（以 Biography 块承载）  
   - block: resume-biography-3
     content:
