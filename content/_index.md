@@ -19,6 +19,7 @@ sections:
     design:
       background:
         color: light
+      spacing: "3rem"
 
   # ① Executive Summary（以 Biography 块承载）
   - block: resume-biography-3
