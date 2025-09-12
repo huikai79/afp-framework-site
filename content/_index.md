@@ -4,19 +4,10 @@ title: ""
 date: 2025-09-09
 type: landing
 
-sections:
-  - block: hero
-    content:
-      title: "📢 Pre-registered Chapter Released"
-      text: "Chapter 5: Experiments & Evaluation (Planned Draft) is now public. Feedback and collaboration are welcome."
-      buttons:
-        - text: 查看章节
-          url: /publication/#ch5
-    design:
-      min_height: "25vh"
-      background:
-        color: light
+design:
+  spacing: "6rem"
 
+sections:
   # ① Executive Summary（以 Biography 块承载）
   - block: resume-biography-3
     content:
