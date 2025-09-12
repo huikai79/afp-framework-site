@@ -7,7 +7,7 @@ first_name: Antifragile
 last_name: Prompting Framework
 
 # Pronouns (optional)
-pronouns: it/its
+# pronouns: it/its
 
 # Status emoji
 status:
