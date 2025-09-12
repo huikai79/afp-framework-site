@@ -8,20 +8,17 @@ design:
   spacing: "6rem"
 
 sections:
-  # ⓪ Compact Banner / Announcement (hero-compact)
   - block: hero
     content:
-      title: "📢 Pre-registered Chapter Released"
-      text: "**Chapter 5: Experiments & Evaluation (Planned Draft)** is now public. Feedback and collaboration are welcome."
+      title: "📢 预注册章节已发布"
+      text: "《第5章：实验与评估（计划稿）》现已公开，欢迎反馈与合作。"
       buttons:
-        - text: View Chapter
-          url: /publication/#ch5
+        - text: 查看章节
+          url: /zh/publication/#ch5
     design:
-      min_height: "28vh"         # 关键：不再全屏
+      min_height: "25vh"
       background:
         color: light
-      spacing:
-        padding: ["0.75rem","0","0.75rem","0"]
 
   # ① Executive Summary（以 Biography 块承载）
   - block: resume-biography-3
