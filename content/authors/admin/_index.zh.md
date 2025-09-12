@@ -35,10 +35,10 @@ profiles:
     url: https://twitter.com/GetResearchDev
 
 # Interests (可选，简短点)
-兴趣:
-  - 提示工程
-  - AI 创作
-  - 阅读
+# Interests:
+#  - 提示工程
+#  - AI 创作
+#  - 阅读
 
 ---
 
