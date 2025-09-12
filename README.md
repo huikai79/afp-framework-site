@@ -56,8 +56,7 @@ clarity, reproducibility, and antifragile growth:
 - **Output Skeleton**: ≤30-word conclusion → 3 key points → steps → dual options → final insight.  
 - **Modes**: FLEX (default), GUARD (risk reminders), AUDIT (full review).  
 
-👉 For the **full system prompt**, see [`docs/system-prompt.md`](docs/system-prompt.md)  
-or the appendix in the AFP Whitepaper.
+👉 For the **full system prompt**, see [`docs/system-prompt.md`](docs/system-prompt.md) .
 
 ---
 
