@@ -48,8 +48,8 @@ button:
 # Interests (可选，简短点)
 interests:
   - Prompt Engineering
-  - AI Safety
-  - Antifragile Systems
+  - AI Creation
+  - Reading
 
 ---
 
