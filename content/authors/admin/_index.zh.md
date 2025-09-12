@@ -37,7 +37,8 @@ profiles:
 # Interests (可选，简短点)
 兴趣:
   - 提示工程
-  - AI 写作
+  - AI 创作
+  - 阅读
 
 ---
 
