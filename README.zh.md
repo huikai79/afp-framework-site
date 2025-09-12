@@ -4,13 +4,20 @@
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
-**Antifragile Prompting（AFP）骨架开放 · 正式署名声明**
+## 第五章实验与评估（计划稿）
+
+本章节为 **预注册草稿**，目前仅公开实验设计框架，尚未包含实验数据与分析。  
+✅ 目的：提升透明度，保障原创署名。  
+🔄 状态：待实验完成后更新数据结果。  
+📢 欢迎提出反馈或合作意向。
+
+**反脆弱提示 Antifragile Prompting（AFP）骨架开放 · 正式署名声明**
 
 ---
 
 ## 版权声明与署名机制说明
 
-**作品名称**：Antifragile Prompting Framework（简称 **AFP**），同义为 **SafeLoop**  
+**作品名称**：反脆弱提示框架 Antifragile Prompting Framework（简称 **AFP**），同义为安全回路 **SafeLoop** 
 **版本**：普通使用版｜精简稳健骨架  
 
 ### 为什么选择公开？
