@@ -4,6 +4,9 @@ title: ""
 date: 2025-09-09
 type: landing
 
+design:
+  spacing: "3rem"
+  
 sections:
   - block: hero
     content:
@@ -15,7 +18,6 @@ sections:
     design:
       background:
         color: light
-      spacing: "3rem"
 
   # ⓪ Banner (English site)
   - block: feature
