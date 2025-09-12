@@ -4,9 +4,6 @@ title: ""
 date: 2025-09-09
 type: landing
 
-design:
-  spacing: "6rem"
-
 sections:
   - block: hero
     content:
