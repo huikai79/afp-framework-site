@@ -1,4 +1,6 @@
-draft: true
+_build:
+  list: false
+  render: false
 
 ---
 title: 🧠 Sharpen your thinking with a second brain
