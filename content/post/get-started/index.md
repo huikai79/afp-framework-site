@@ -1,4 +1,6 @@
-draft: true
+_build:
+  list: false
+  render: false
 
 ---
 title: 🎉 Easily create your own simple yet highly customizable blog
