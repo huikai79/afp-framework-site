@@ -1,4 +1,6 @@
-draft: true
+_build:
+  list: false
+  render: false
 
 ---
 title: 👩🏼‍🏫 Teach academic courses
