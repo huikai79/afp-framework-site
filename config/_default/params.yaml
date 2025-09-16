@@ -8,6 +8,11 @@ appearance:
   mode: system
   color: emerald
 
+# 网站全域设定
+title: "AFP Framework"
+description: "Antifragile Prompting · SafeLoop"
+favicon: "favicon.ico"   # ← 全域 favicon
+
 # SEO
 marketing:
   seo:
@@ -17,7 +22,7 @@ marketing:
     description: 'Antifragile Prompting (AFP) Framework · SafeLoop'
     twitter: 'GetResearchDev'
   analytics:
-    google_analytics: ''
+    google_analytics: 'G-073756NRLV'
     baidu_tongji: ''
     plausible: ''
     fathom: ''
@@ -38,21 +43,17 @@ header:
     logo:
       image: "afp-logo.png"
       text: "Antifragile Prompting (AFP)"
-      favicon: "favicon.ico"
-
 
 # Site footer
 footer:
   block: minimal
   copyright:
-    # 页脚一句话；{year} 自动显示年份；{license} 自动变成许可证链接
     notice: "© {year} CHING HUI KAI · Antifragile Prompting (AFP). This work is licensed under {license}."
-    # 选择 CC 授权（HugoBlox 会依据这些选项生成 {license} 链接）
     license:
       enable: true
-      allow_derivatives: true     # 允许演绎（CC BY 允许）
-      share_alike: false          # 非 SA
-      allow_commercial: true      # 允许商用（CC BY 允许）
+      allow_derivatives: true
+      share_alike: false
+      allow_commercial: true
 
 # Localization
 locale:
@@ -66,6 +67,7 @@ features:
   privacy_pack:
     enable: false
 
+# Homepage sections
 homepage:
   sections:
     - hero
@@ -73,7 +75,16 @@ homepage:
     - people_founder
     - publication
 
+# Blocks (合并在一起)
 blocks:
+  hero:
+    title: "Antifragile Prompting (AFP)"
+    text: "SafeLoop · A resilient prompting framework"
+    design:
+      style: hero
+      background:
+        color: "emerald"
+
   about:
     show_avatar: false
     actions:
@@ -81,17 +92,23 @@ blocks:
         url: "/uploads/afp-whitepaper.pdf"
         icon: download
 
-blocks:
   people_founder:
     title: "Founder"
     subtitle: ""
-    type: "people"          # 使用内建 People 积木
+    type: "people"
     content:
-      users: ["admin"]      # 只显示 admin 这位作者
+      users: ["admin"]
       show_social: true
       show_interests: false
     design:
       columns: 1
       avatar_shape: "circle"
-      avatar_size: "sm"     # 〔假设〕支持 xs/sm/md/lg;不支持时会退回默认
+      avatar_size: "sm"
 
+  publication:
+    title: "Whitepaper"
+    type: "publication"
+    content:
+      count: 5
+      filters:
+        featured: false
