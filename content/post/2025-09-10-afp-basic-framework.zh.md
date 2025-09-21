@@ -68,22 +68,22 @@ Basic Framework = A stable prompt foundation for everyday tasks.
 
 ---
 
-#### 📥 下载区 {#downloads}
+### 📥 下载区 {#downloads}
 
-以下提供三个版本的 AFP 系统提示，建议复制 **英文原文** 使用；中文说明仅供理解。  
-可选择站内下载（.md 文件）或 GitHub Raw（纯文本）。
+以下三份下载文件正好对应白皮书提到的三层架构：  
 
-- **普通使用版（Basic Framework）**  
+- **普通使用版（Basic Framework = 简版 Quick Start）**  
   [站内下载](/downloads/afp-basic.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-basic.md)
-- **进阶版（Advanced Framework）**  
+
+- **进阶版（Advanced Framework = 中版 Research / Extended Dialogue）**  
   [站内下载](/downloads/afp-advanced.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-advanced.md)
-- **母提示框架版（Mother Framework）**  
+
+- **母提示框架版（Mother Framework = 完整版 Unified Master Prompt）**  
   [站内下载](/downloads/afp-master.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-master.md)
 
 ---
 
-⚠️ 注意：  
-- `.md` 适合阅读和渲染。  
-- 若要纯文本，点 GitHub Raw 链接即可复制。  
-
+⚠️ 使用提醒：  
+- `.md` 文件适合网页渲染与排版。  
+- 若要复制纯文本，请点 **GitHub Raw**。
 
