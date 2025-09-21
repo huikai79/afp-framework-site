@@ -77,6 +77,20 @@ Every answer must end with one of these lines:
 
 ### 📥 Downloads {#downloads}
 
-- [Basic Framework（Download）](/downloads/afp-basic.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-basic.md)
-- [Advanced Framework（Download）](/downloads/afp-advanced.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-advanced.md)
-- [Mother Framework（Download）](/downloads/afp-master.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-master.md)
+The following three files correspond exactly to the **three-layer design described in the AFP Whitepaper**:
+
+* **Basic Framework (Quick Start / Everyday Use)**
+  [Download here](/downloads/afp-basic.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-basic.md)
+
+* **Advanced Framework (Research / Extended Dialogue)**
+  [Download here](/downloads/afp-advanced.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-advanced.md)
+
+* **Mother Framework (Unified Master Prompt / Full Version)**
+  [Download here](/downloads/afp-master.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-master.md)
+
+---
+
+⚠️ Notes:
+
+* `.md` files are formatted for reading and rendering.
+* For **plain text copy**, use the **GitHub Raw** links.
