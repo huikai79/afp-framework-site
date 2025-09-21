@@ -68,11 +68,11 @@ Basic Framework = A stable prompt foundation for everyday tasks.
 
 ---
 
-### 📥 下载区 {#downloads}
+##### 📥 下载区 {#downloads}
 
 以下三份下载文件正好对应白皮书提到的三层架构：  
 
-- **普通使用版（Basic Framework = 简版 Quick Start）**  
+- **普通使用版（Basic Framework = 简版 Quick Start）**
   [站内下载](/downloads/afp-basic.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-basic.md)
 
 - **进阶版（Advanced Framework = 中版 Research / Extended Dialogue）**  
