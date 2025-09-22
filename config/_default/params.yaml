@@ -11,7 +11,8 @@ appearance:
 # 网站全域设定
 title: "AFP Framework"
 description: "Antifragile Prompting · SafeLoop"
-favicon: "favicon.ico"   # ← 全域 favicon
+favicon:
+  logo: "icon.png"
 
 # SEO
 marketing:
