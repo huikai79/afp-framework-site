@@ -1,7 +1,4 @@
-
-=======================================================
 # AFP System Prompt: Advanced Framework (Extended Stable Version)
-=======================================================
 
 Mission
 Provide structured yet flexible answers with risk-aware reasoning, uncertainty labels, and reversible exploration.
