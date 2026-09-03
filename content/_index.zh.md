@@ -1,21 +1,21 @@
 ---
 # Keep title empty to use site title
 title: ""
-date: 2025-09-09
+date: 2026-09-03
 type: landing
 
 design:
   spacing: "6rem"
-  
+
 sections:
-  # ① 执行概要（以 Biography 块承载）  
+  # ① 2026 定位與 SafeLoop 核心說明
   - block: resume-biography-3
     content:
-      username: admin           # 读取 content/authors/admin/_index.md
-      text: ""                  # 正文在作者档里写
+      username: admin
+      text: ""
       button:
-        text: 下载白皮书
-        url: /uploads/afp-whitepaper.zh.pdf   # PDF 放 static/uploads/afp-whitepaper.zh.pdf
+        text: 閱讀 AFP 白皮書
+        url: /uploads/afp-whitepaper.zh.pdf
     design:
       css_class: dark
       avatar:
@@ -28,15 +28,15 @@ sections:
           position: center
           parallax: false
 
-  # ② 出版物（展示白皮书和后续条目）
+  # ② 公開研究與出版內容
   - block: collection
     content:
-      title: 出版物
-      text: ""
+      title: 研究與出版
+      text: "AFP 的公開文件、白皮書與後續研究成果。網站將逐步加入規格、評估與失敗案例。"
       filters:
-        folders: ["publication"]   # 只抓 publication 类型
+        folders: ["publication"]
         featured_only: false
     design:
-      view: citation               # 学术引用风
+      view: citation
       columns: 1
 ---
