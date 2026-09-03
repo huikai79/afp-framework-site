@@ -1,6 +1,6 @@
 ---
 # 顯示名稱
-title: 庄辉恺
+title: 莊輝愷
 
 # SEO 名稱
 first_name: AFP
