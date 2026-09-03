@@ -1,21 +1,19 @@
 ---
-# Keep title empty to use site title
 title: ""
-date: 2025-09-09
+date: 2026-09-03
 type: landing
 
 design:
   spacing: "6rem"
-  
+
 sections:
-  # ① Executive Summary（以 Biography 块承载）
   - block: resume-biography-3
     content:
-      username: admin           # 读取 content/authors/admin/_index.md
-      text: ""                  # 正文在作者档里写
+      username: admin
+      text: ""
       button:
-        text: Download Whitepaper
-        url: /uploads/afp-whitepaper.pdf   # PDF 放 static/uploads/afp-whitepaper.pdf
+        text: Read the AFP Whitepaper
+        url: /uploads/afp-whitepaper.pdf
     design:
       css_class: dark
       avatar:
@@ -28,15 +26,40 @@ sections:
           position: center
           parallax: false
 
-  # ② Publications（展示白皮书和后续条目）
+  - block: markdown
+    id: framework
+    content:
+      title: A reliability layer for AI workflows
+      text: |
+        AFP structures six things that increasingly matter once AI systems can search, call tools, use memory, and act across multiple steps:
+
+        **Assumptions → Evidence → Counter-evidence → Decision → Validation → Revision**
+
+        The framework is designed around inspectability: important claims should have a traceable basis, failure should be detectable, and revised outputs should be testable again.
+
+        [Read the specification →](/specification/)
+
+  - block: markdown
+    id: evidence
+    content:
+      title: From claims to evidence
+      text: |
+        The next phase of AFP is evidence-first. The public reference is organized around three surfaces:
+
+        - **Specification** — what AFP currently requires.
+        - **Evaluations** — how AFP should be compared against simpler baselines.
+        - **Failure Cases** — concrete ways AI workflows fail and how the framework responds.
+
+        [Evaluation plan →](/evaluations/) · [Failure cases →](/failure-cases/)
+
   - block: collection
     content:
-      title: Publications
-      text: ""
+      title: Research & Publications
+      text: "AFP's public documents, whitepaper, and subsequent research outputs."
       filters:
-        folders: ["publication"]   # 只抓 publication 类型
+        folders: ["publication"]
         featured_only: false
     design:
-      view: citation               # 学术引用风
+      view: citation
       columns: 1
 ---
