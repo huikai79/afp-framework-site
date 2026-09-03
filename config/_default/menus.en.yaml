@@ -1,23 +1,22 @@
-# Navigation Links
-#   To link a homepage widget, specify the URL as a hash `#` followed by the filename of the
-  #     desired widget in your `content/home/` folder.
-  #   The weight parameter defines the order that the links will appear in.
-
-# Navigation Links (YAML)
-
 main:
   - name: Home
     url: /
     weight: 10
-  - name: Executive Summary
-    url: /#about
+  - name: Specification
+    url: /specification/
     weight: 20
+  - name: Evaluations
+    url: /evaluations/
+    weight: 30
+  - name: Failure Cases
+    url: /failure-cases/
+    weight: 40
   - name: System Prompt
     url: /post/2025-09-10-afp-basic-framework/
-    weight: 30
+    weight: 50
   - name: Whitepaper
     url: /publication/
-    weight: 40
+    weight: 60
   - name: License
     url: /license/
     weight: 90
