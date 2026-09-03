@@ -1,26 +1,20 @@
 # SITE SETUP
-# Guide: https://docs.hugoblox.com/tutorial/
-# Documentation: https://docs.hugoblox.com/
-# This file is formatted using YAML syntax - learn more at https://learnxinyminutes.com/docs/yaml/
 
-# Appearance
 appearance:
   mode: system
   color: emerald
 
-# 网站全域设定
 title: "AFP Framework"
-description: "Antifragile Prompting · SafeLoop"
+description: "AFP / SafeLoop · AI workflow reliability and governance"
 favicon:
   logo: "icon.png"
 
-# SEO
 marketing:
   seo:
     site_type: Person
     local_business_type: ''
     org_name: ''
-    description: 'Antifragile Prompting (AFP) Framework · SafeLoop'
+    description: 'AFP / SafeLoop: an open framework for reliable, traceable, and testable AI workflows.'
     twitter: 'GetResearchDev'
   analytics:
     google_analytics: 'G-073756NRLV'
@@ -32,7 +26,6 @@ marketing:
     google: ''
     baidu: ''
 
-# Site header
 header:
   navbar:
     enable: true
@@ -40,76 +33,27 @@ header:
     fixed_to_top: true
     show_search: true
     show_theme_chooser: true
-    show_language_switcher: true   # ← 开启语言切换器
+    show_language_switcher: true
     logo:
       image: "afp-logo.png"
-      text: "Antifragile Prompting (AFP)"
+      text: "AFP / SafeLoop"
 
-# Site footer
 footer:
   block: minimal
   copyright:
-    notice: "© {year} CHING HUI KAI · Antifragile Prompting (AFP). This work is licensed under {license}."
+    notice: "© {year} CHING HUI KAI · Antifragile Prompting Framework (AFP) / SafeLoop. This work is licensed under {license}."
     license:
       enable: true
       allow_derivatives: true
       share_alike: false
       allow_commercial: true
 
-# Localization
 locale:
   date_format: 'Jan 2, 2006'
   time_format: '3:04 PM'
 
-# Site features
 features:
   math:
     enable: false
   privacy_pack:
     enable: false
-
-# Homepage sections
-homepage:
-  sections:
-    - hero
-    - about
-    - people_founder
-    - publication
-
-# Blocks (合并在一起)
-blocks:
-  hero:
-    title: "Antifragile Prompting (AFP)"
-    text: "SafeLoop · A resilient prompting framework"
-    design:
-      style: hero
-      background:
-        color: "emerald"
-
-  about:
-    show_avatar: false
-    actions:
-      - label: "Download Whitepaper"
-        url: "/uploads/afp-whitepaper.pdf"
-        icon: download
-
-  people_founder:
-    title: "Founder"
-    subtitle: ""
-    type: "people"
-    content:
-      users: ["admin"]
-      show_social: true
-      show_interests: false
-    design:
-      columns: 1
-      avatar_shape: "circle"
-      avatar_size: "sm"
-
-  publication:
-    title: "Whitepaper"
-    type: "publication"
-    content:
-      count: 5
-      filters:
-        featured: false
