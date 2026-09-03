@@ -1,18 +1,22 @@
-
 main:
-  - name: 首页
+  - name: 首頁
     url: /zh/
     weight: 10
-  - name: 执行摘要
-    url: /zh/#about
+  - name: 規格
+    url: /zh/specification/
     weight: 20
-  - name: 系统提示
-    url: /zh/post/2025-09-10-afp-basic-framework/
+  - name: 評估
+    url: /zh/evaluations/
     weight: 30
-  - name: 白皮书
-    url: /zh/publication/
+  - name: 失敗案例
+    url: /zh/failure-cases/
     weight: 40
-  - name: 许可协议
+  - name: 系統提示
+    url: /zh/post/2025-09-10-afp-basic-framework/
+    weight: 50
+  - name: 白皮書
+    url: /zh/publication/
+    weight: 60
+  - name: 授權
     url: /zh/license/
     weight: 90
-
