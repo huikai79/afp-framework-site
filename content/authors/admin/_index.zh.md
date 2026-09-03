@@ -1,54 +1,37 @@
 ---
-# Display name
+# 顯示名稱
 title: 庄辉恺
 
-# Full name (for SEO)
-first_name: 反脆弱
-last_name: 提示框架
+# SEO 名稱
+first_name: AFP
+last_name: SafeLoop
 
-# Pronouns (optional)
-# pronouns: it/its
-
-# Status emoji
 status:
-  icon: 📄
+  icon: 🔎
 
-# Is this the primary user of the site?
 superuser: true
-
-# Highlight the author in author lists? (true/false)
 highlight_name: true
 
-# Role/position/tagline
-role: 反脆弱提示框架 AFP（SafeLoop）创始人
+# 首頁 Biography 區塊使用的定位
+role: AFP / SafeLoop 創始人｜AI 工作流程可靠性與治理研究
 
-# Organizations/Affiliations to display in Biography blox
 organizations:
-  - name: 安全回路 (SafeLoop) 计划
+  - name: Antifragile Prompting Framework (AFP)
     url: https://afpframework.org/
 
-# Social network links
 profiles:
   - icon: brands/github
     url: https://github.com/huikai79/afp-framework-site
- # - icon: brands/x
-    url: https://twitter.com/GetResearchDev
-
-# Interests (可选，简短点)
-# Interests:
-#  - 提示工程
-#  - AI 创作
-#  - 阅读
 
 ---
 
-## AFP：反脆弱提示框架
-### 执行纲要
+## AFP：從提示治理走向 AI 工作流程可靠性
+### 2026 定位
 
-反脆弱提示框架（AFP）是一套 工程化的提示治理结构，让 AI 在复杂与高风险场景下保持可控、可复现、可解释。
+Antifragile Prompting Framework（AFP）最初從「提示治理」出發，關注大型語言模型在複雜任務中的可控性、可重現性與可解釋性。隨著 AI 從單次問答走向 Agent、工具呼叫與多步驟工作流程，AFP 的研究重心也擴展到一個更大的問題：**如何讓 AI 的重要輸出可以被驗證、追溯、修正與重新測試。**
 
-AFP 的核心思想是「抗脆弱」：系统在承压时不仅不崩溃，还能通过回路式反馈持续进化。
-它不是一份技巧手册，而是一套长期可靠的质量保证机制。
+AFP 不把可靠性寄託在某一句更好的 Prompt，而是把假設、證據、反證、驗證、失敗處理與修正放進可檢查的工作流程。目標不是宣稱 AI 永遠正確，而是讓錯誤更容易被看見、被攔截，並留下可以回頭檢查的軌跡。
 
-安全回路（SafeLoop）作为 AFP 的核心机制，提供透明且可迭代的提示循环，确保 AI 的每一步输出都在可验证的轨道上成长。
-无论模型如何升级，AFP 始终是让团队与研究者信任输出、追溯来源、建立标准的关键工具。
+**SafeLoop** 是 AFP 的核心迴路。它把輸出視為需要持續驗證的工作結果，而不是一次生成後便視為完成。當模型、工具或外部資料改變時，同一套流程也應能重新執行與比較。
+
+目前網站將逐步公開 AFP 的規格、評估方法、失敗案例與可重現測試，讓「是否有效」可以由證據回答，而不只停留在理念層次。
