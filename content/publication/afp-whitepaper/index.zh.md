@@ -1,25 +1,25 @@
 ---
-title: "反脆弱提示（AFP）框架白皮书"
+title: "AFP／SafeLoop 白皮書典藏（2025 概念版）"
 authors:
-  - 庄辉恺
+  - 莊輝愷
 date: 2025-09-09
 publication_types: ["report"]
 featured: true
-
-# 外部连结（按钮会出现在条目下）
 links:
-  - name: PDF
+  - name: 2025 PDF（典藏）
     url: /uploads/afp-whitepaper.zh.pdf
+  - name: 目前規格
+    url: /zh/specification/
+  - name: 評估狀態
+    url: /zh/evaluations/
   - name: GitHub
     url: https://github.com/huikai79/afp-framework-site
-
-# 如果你有 DOI 或其他引用，可加：
-# doi: "10.1234/afp.whitepaper.2025"
 ---
 
-### 摘要
+## 文件狀態
 
-反脆弱提示（AFP）框架并不是一堆提示技巧的拼凑，而是一套能够在复杂与不确定中茁壮成长的韧性系统。
+**歷史概念版本。** 這份 2025 PDF 記錄 AFP 較早期以 Prompt 治理與「反脆弱」為中心的定位，目前保留作為版本紀錄。它不應被當成現行規格，也不代表 AFP 已經被實證證明優於其他方法。
 
-它强调的是反脆弱性：当系统受到压力时，不会崩溃，而是透过反馈回路不断适应与进化。SafeLoop 作为 AFP 的核心机制，
-确保提示过程在安全的循环中迭代，既能保持 AI 输出可控，又能持续优化。
+目前對外主張、適用邊界、評估規則與 benchmark 狀態，請以[目前規格](/zh/specification/)與[評估](/zh/evaluations/)頁面為準。
+
+〔已知限制〕典藏中文 PDF 為早期版本，字型相容性在部分 PDF 閱讀器可能不完整；在新版 PDF 正式替換前，請優先閱讀本站 HTML 內容。
