@@ -1,94 +1,45 @@
-[中文版本 available here](README.zh.md)
+[繁體中文](README.zh.md)
 
 # Antifragile Prompting (AFP) Framework · SafeLoop
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
-## Notice on Chapter 5: Experiments & Evaluation (Planned Draft)
+AFP / SafeLoop is an open working framework for making consequential or reusable AI workflows easier to inspect, challenge, validate, revise, and re-test.
 
-This section of the AFP Whitepaper is a **pre-registered draft**.  
-It currently only contains the experimental design framework,  
-and does not yet include results or analysis.  
+## Current public contract
 
-✅ Purpose: transparency, authorship timestamp, open feedback.  
-🔄 Status: will be updated with data once experiments are executed.  
-📢 Feedback: suggestions and collaboration proposals are welcome.
+**Assumptions → Evidence → Counter-evidence → Decision → Validation → Revision**
 
-**Official Attribution Statement for the AFP / SafeLoop Skeleton (Public Release)**
+SafeLoop is the feedback cycle around that workflow: **Produce → Inspect → Challenge → Validate → Revise → Re-test**.
 
----
+AFP does not by itself guarantee factual correctness, safety, compliance, or superior model performance. Domain controls and qualified human review remain necessary where applicable.
 
-## Copyright & Attribution
+## Evidence status
 
-**Work Title**: Antifragile Prompting Framework (AFP), also known as **SafeLoop**  
-**Version**: Public Use Edition | Minimal & Stable Skeleton  
+- Public specification: working specification.
+- Failure library: initial taxonomy published; reproduced cases are still being developed.
+- Evaluation: Pilot Protocol v0.1 published.
+- Benchmark scores: not yet published.
 
-### Why make it public?
-Making the framework public establishes authorship with a clear timestamp,  
-which is widely recognized in both open-source and academia.  
-Preprints and open repositories serve as evidence of priority and originality.  
+The project should not be described as empirically superior until reproducible comparisons support that claim.
 
-### License & Commitments
-- **Attribution**: Original author: **CHING HUI KAI**.  
-  Usage, modification, and redistribution are welcome,  
-  but proper attribution with author name and publication date is required.  
-- **License**: This project’s text and documentation are released under  
-  **Creative Commons Attribution 4.0 International (CC BY 4.0)**.  
-- **Versioning**: Future releases (e.g., full AFP Whitepaper) will also be timestamped and published openly.  
+## Repository map
 
-### Why is it safer after publishing?
-Public release strengthens protection: if someone copies without attribution,  
-the internet record and timestamp serve as proof of authorship.  
-The community itself helps enforce proper citation.  
+- `content/specification/` — current public specification.
+- `content/evaluations/` — evaluation design, protocol, and pilot status.
+- `content/failure-cases/` — failure taxonomy and future reproduced cases.
+- `benchmarks/afp-v0.1/` — frozen pilot pack and raw-output runner.
+- `system-prompts/` and the 2025 prompt page — historical prompt-governance artifacts; not the complete current specification.
+- `static/uploads/` — archived whitepaper PDFs. The 2025 PDFs are historical concept editions.
 
----
+## Reproducibility
 
-## Project Description
+The benchmark validation mode makes no model API calls. Live mode is manual, requires an explicit model ID and repository secret, and writes raw outputs for later grading. Raw generation alone does not establish a benchmark result.
 
-Antifragile Prompting (AFP) / SafeLoop is a **resilient prompting framework**  
-designed to remain stable and adaptive in complex, uncertain environments.  
+## Contributing
 
-- **SafeLoop**: The core mechanism — a secure, iterative prompting cycle.  
-- **Positioning**: Not just a “bag of tricks,” but a robust conceptual skeleton.  
-- **Applications**: Useful for research, AI safety, education, and decision-making.  
-
----
-
-## Execution Rules (Summary)
-
-This project website follows a **minimal operational protocol** to ensure  
-clarity, reproducibility, and antifragile growth:
-
-- **Safety & Evidence**: compliance > all; cite sources or mark as [assumption] + [verification path].  
-- **Delivery**: always ship a minimal viable answer (MVP) first, refine later.  
-- **Dual Options**: every solution provides a default + fallback path.  
-- **Risk Rule (Barbell)**: 85% safe base + 15% exploratory testing.  
-- **Output Skeleton**: ≤30-word conclusion → 3 key points → steps → dual options → final insight.  
-- **Modes**: FLEX (default), GUARD (risk reminders), AUDIT (full review).  
-
-👉 For the **full system prompt**, see [`docs/system-prompt.md`](docs/system-prompt.md) .
-
----
-
-## How to Use
-
-1. See `content/publication/` for the **AFP Whitepaper** entry.  
-2. Use the “Download Whitepaper” button on the homepage to access the latest PDF.  
-3. When citing, please follow CC BY 4.0 attribution:  
-
-   > “Antifragile Prompting (AFP) Framework – SafeLoop”,  
-   > by CHING HUI KAI, CC BY 4.0.  
-
----
-
-## Contribution & Feedback
-
-- Contributions are welcome via Issues and Pull Requests.  
-- Discussions and feedback are encouraged through GitHub Issues or email.  
-
----
+Review the public protocol, reproduce the benchmark pack, propose reproducible failure cases, or submit documentation/implementation improvements through GitHub Issues and Pull Requests. Do not post secrets or sensitive personal information in public discussions.
 
 ## License
 
-This project’s text and documentation are licensed under  
-[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+AFP-owned text and documentation are released under Creative Commons Attribution 4.0 International (CC BY 4.0). Third-party software and template components retain their own licenses.
