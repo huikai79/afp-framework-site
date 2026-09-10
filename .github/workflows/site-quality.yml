@@ -12,7 +12,7 @@ permissions:
 
 env:
   WC_HUGO_VERSION: '0.148.2'
-  NODE_VERSION: '20'
+  NODE_VERSION: '24'
 
 jobs:
   build-and-check:
