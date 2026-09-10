@@ -1,13 +1,7 @@
 ---
-title: Recent & Upcoming Talks
+title: Events
 cms_exclude: true
-#url: talk
-
-# View
-view: card
-
-# Optional cover image (relative to `assets/media/` folder).
-image:
-  caption: ''
-  filename: ''
+draft: true
 ---
+
+This starter-template section is retained for reference and excluded from the production AFP site.
