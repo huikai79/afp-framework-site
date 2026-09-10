@@ -1,23 +1,8 @@
 ---
 title: Teaching
-summary: My courses
+summary: Starter-template teaching section retained for reference.
 type: landing
-
-cascade:
-  - _target:
-      kind: page
-    params:
-      show_breadcrumb: true
-
-sections:
-  - block: collection
-    id: teaching
-    content:
-      title: Teaching
-      filters:
-        folders:
-          - teaching
-    design:
-      view: article-grid
-      columns: 2
+draft: true
 ---
+
+This section is intentionally excluded from the production AFP site.
