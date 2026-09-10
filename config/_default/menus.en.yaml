@@ -20,3 +20,6 @@ main:
   - name: License
     url: /license/
     weight: 90
+  - name: Privacy
+    url: /privacy/
+    weight: 100
