@@ -20,3 +20,6 @@ main:
   - name: 授權
     url: /zh/license/
     weight: 90
+  - name: 隱私
+    url: /zh/privacy/
+    weight: 100
