@@ -1,6 +1,6 @@
 ---
 title: ""
-date: 2026-09-03
+date: 2026-09-10
 type: landing
 
 design:
@@ -12,8 +12,8 @@ sections:
       username: admin
       text: ""
       button:
-        text: Read the AFP Whitepaper
-        url: /uploads/afp-whitepaper.pdf
+        text: Read the current AFP specification
+        url: /specification/
     design:
       css_class: dark
       avatar:
@@ -44,18 +44,20 @@ sections:
     content:
       title: From claims to evidence
       text: |
-        The next phase of AFP is evidence-first. The public reference is organized around three surfaces:
+        The current AFP public reference is evidence-first and organized around three surfaces:
 
         - **Specification** — what AFP currently requires.
         - **Evaluations** — how AFP should be compared against simpler baselines.
         - **Failure Cases** — concrete ways AI workflows fail and how the framework responds.
+
+        **Current evidence status:** Pilot Protocol v0.1 is public; benchmark scores are not yet published.
 
         [Evaluation plan →](/evaluations/) · [Failure cases →](/failure-cases/)
 
   - block: collection
     content:
       title: Research & Publications
-      text: "AFP's public documents, whitepaper, and subsequent research outputs."
+      text: "Public AFP documents and archived editions. Historical whitepapers are labeled separately from the current specification."
       filters:
         folders: ["publication"]
         featured_only: false
