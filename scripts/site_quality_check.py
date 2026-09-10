@@ -4,7 +4,7 @@ from __future__ import annotations
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 SITE_HOST = "afpframework.org"
 
@@ -32,7 +32,7 @@ def local_target(public: Path, raw_url: str) -> Path | None:
     if parsed.scheme and parsed.scheme not in {"http", "https"}:
         return None
 
-    path = parsed.path
+    path = unquote(parsed.path)
     if not path or path == "/":
         return public / "index.html"
 
@@ -64,35 +64,23 @@ def main() -> int:
     errors: list[str] = []
 
     required = [
-        "index.html",
-        "zh/index.html",
-        "specification/index.html",
-        "zh/specification/index.html",
-        "evaluations/index.html",
-        "zh/evaluations/index.html",
-        "failure-cases/index.html",
-        "zh/failure-cases/index.html",
-        "publication/afp-whitepaper/index.html",
-        "zh/publication/afp-whitepaper/index.html",
-        "privacy/index.html",
-        "zh/privacy/index.html",
-        "uploads/afp-whitepaper.pdf",
-        "uploads/afp-whitepaper.zh.pdf",
-        "robots.txt",
-        "sitemap.xml",
-        "pagefind/pagefind.js",
+        "index.html", "zh/index.html",
+        "specification/index.html", "zh/specification/index.html",
+        "evaluations/index.html", "zh/evaluations/index.html",
+        "evaluations/protocol/index.html", "zh/evaluations/protocol/index.html",
+        "failure-cases/index.html", "zh/failure-cases/index.html",
+        "publication/afp-whitepaper/index.html", "zh/publication/afp-whitepaper/index.html",
+        "privacy/index.html", "zh/privacy/index.html",
+        "uploads/afp-whitepaper.pdf", "uploads/afp-whitepaper.zh.pdf",
+        "robots.txt", "sitemap.xml", "pagefind/pagefind.js",
     ]
     for rel in required:
         if not (public / rel).exists():
             errors.append(f"required output missing: {rel}")
 
     forbidden = [
-        "event/example/index.html",
-        "teaching/js/index.html",
-        "teaching/python/index.html",
-        "project/pandas/index.html",
-        "project/pytorch/index.html",
-        "project/scikit/index.html",
+        "event/example/index.html", "teaching/js/index.html", "teaching/python/index.html",
+        "project/pandas/index.html", "project/pytorch/index.html", "project/scikit/index.html",
         "zh/author/庄辉恺/index.html",
     ]
     for rel in forbidden:
@@ -110,14 +98,12 @@ def main() -> int:
                 errors.append(f"{label} remains in {html.relative_to(public)}")
 
     for page_rel in [
-        "index.html",
-        "zh/index.html",
-        "specification/index.html",
-        "zh/specification/index.html",
-        "evaluations/index.html",
-        "failure-cases/index.html",
-        "privacy/index.html",
-        "zh/privacy/index.html",
+        "index.html", "zh/index.html",
+        "specification/index.html", "zh/specification/index.html",
+        "evaluations/index.html", "zh/evaluations/index.html",
+        "evaluations/protocol/index.html", "zh/evaluations/protocol/index.html",
+        "failure-cases/index.html", "zh/failure-cases/index.html",
+        "privacy/index.html", "zh/privacy/index.html",
     ]:
         check_page_links(public, page_rel, errors)
 
