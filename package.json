@@ -6,11 +6,15 @@
   "description": "AFP / SafeLoop public reference site",
   "scripts": {
     "dev": "hugo server --disableFastRender",
-    "build": "hugo --minify"
+    "build": "hugo --minify",
+    "search:index": "pagefind --site public"
   },
   "dependencies": {
     "@tailwindcss/cli": "4.3.3",
     "@tailwindcss/typography": "0.5.20",
     "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "pagefind": "1.5.2"
   }
 }
