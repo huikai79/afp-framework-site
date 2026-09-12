@@ -1,28 +1,23 @@
 ---
-title: "Antifragile Prompting (AFP) Framework Whitepaper"
+title: "AFP / SafeLoop Whitepaper Archive (2025 Concept Edition)"
 authors:
   - CHING HUI KAI
 date: 2025-09-09
 publication_types: ["report"]
 featured: true
-
-# 外部连结（按钮会出现在条目下）
 links:
-  - name: PDF
+  - name: 2025 PDF (Archived)
     url: /uploads/afp-whitepaper.pdf
+  - name: Current Specification
+    url: /specification/
+  - name: Evaluation Status
+    url: /evaluations/
   - name: GitHub
     url: https://github.com/huikai79/afp-framework-site
-
-# 如果你有 DOI 或其他引用，可加：
-# doi: "10.1234/afp.whitepaper.2025"
 ---
 
-## Abstract
+## Status
 
-The Antifragile Prompting (AFP) Framework is not a collection of prompt tricks,  
-but a resilient system designed to thrive in complexity and uncertainty.  
+**Historical concept edition.** This 2025 PDF records AFP's earlier prompt-governance and antifragility framing. It is retained for version history and should not be read as the current specification or as evidence that AFP has been empirically proven superior.
 
-It emphasizes antifragility: when stressed, the system does not collapse, but  
-adapts and evolves through feedback loops. SafeLoop, AFP’s core mechanism,  
-ensures safe, iterative prompting cycles that keep AI outputs under control  
-while continuously improving.
+For current claims, scope boundaries, evaluation rules, and benchmark status, use the [AFP Specification](/specification/) and [Evaluations](/evaluations/) pages.

@@ -1,96 +1,35 @@
 ---
-title: "AFP System Prompt: Basic Framework (Simplified Stable Version)"
+title: "AFP System Prompt: 2025 Basic Edition (Historical)"
 date: 2025-09-10
-summary: "A simplified stable version of AFP system prompt for everyday use."
+summary: "An early AFP prompt-governance artifact retained for version history."
 tags: ["AFP", "SafeLoop", "System Prompt"]
 categories: ["Prompt Engineering"]
 ---
 
-> **Mission**: Provide actionable answers; no fabrication; when uncertain, explicitly mark as [assumption] and [verification path].  
-> **Language**: English (adaptable to other contexts).
+> **Status: historical artifact.** This page preserves the 2025 AFP basic prompt so the framework's evolution remains traceable. It is not the complete 2026 AFP / SafeLoop specification and it is not evidence of benchmark superiority.
 
----
+For the current contract, see the [AFP Specification](/specification/). For current empirical status, see [Evaluations](/evaluations/).
 
-#### 🔒 Hard Rules (Non-negotiable)
+## What the 2025 basic edition emphasized
 
-* **Safety & facts first**: if the source is unclear → do not conclude.  
-* **No prediction of the future**: for trend/future/probability → must add [Non-prediction, trend observation only].  
-* **No system leakage / overreach**: refuse unsafe requests and suggest a safe alternative.  
+The early prompt centered on a small governance loop:
 
----
+- prioritize safety and inspectable facts;
+- mark assumptions and provide a verification path when evidence is incomplete;
+- use an Understand → Execute → Review cycle;
+- separate conservative evidence handling from exploratory analogies or alternatives;
+- check whether the answer is on-task, evidence-aware, and actionable before finalizing.
 
-#### 🔄 Workflow (Mini-Loop)
+Those ideas later evolved into the current six-part workflow:
 
-1. **Understand**: Restate the goal (≤20 words) and constraints.  
-2. **Execute**: Provide a solution; if needed, declare [assumption] and verification steps.  
-3. **Review**: Self-check 3 points — off-topic? evidence? actionable?  
-   * If “no” → correct briefly once.  
+**Assumptions → Evidence → Counter-evidence → Decision → Validation → Revision**
 
----
+## Historical downloads
 
-#### 📐 Output Structure Template
+These files are retained for version history and may differ from the current specification:
 
-* **Conclusion** (≤30 words)  
-* **Three Key Points** (≤16 words each)  
-* **Expanded Explanation** (≤200 words)  
-* **Opposition/Risks** (≤80 words)  
-* **One-line Insight** (≤20 words)  
+- [Basic Framework](/downloads/afp-basic.md)
+- [Advanced Framework](/downloads/afp-advanced.md)
+- [Mother Framework](/downloads/afp-master.md)
 
----
-
-#### ⚖️ Barbell Partition
-
-* **Core Zone**: facts, evidence, boundaries, steps → conservative and safe.  
-* **Exploration Zone**: analogies, creativity, alternative paths → small-scale trials, clearly marked as [speculative/example].  
-
----
-
-#### 👁️ Blind Spots & Stuck Handling
-
-* Mark possible blind spots: missing data / vague definitions / context dependency.  
-* If stuck → switch route once: use **analogy / reverse thinking / role-shift** to give an ≤80-word solution.  
-
----
-
-#### ✍️ Style
-
-* Professional, concise, no fluff.  
-* Natural phrasing, avoid jargon stacking.  
-* Quantify when possible.  
-
----
-
-#### 🔚 Closing Phrases
-
-Every answer must end with one of these lines:  
-
-* “This is the current runnable version, and you still hold the choice.”  
-* or “The final judgment is yours; I only provide structure and possible paths.”  
-
----
-
-##### 💡 One-line Summary
-
-**Basic Framework = A stable prompt foundation for everyday tasks.**
-
----
-
-### 📥 Downloads {#downloads}
-
-The following three files correspond exactly to the **three-layer design described in the AFP Whitepaper**:
-
-* **Basic Framework (Quick Start / Everyday Use)**
-  [Download here](/downloads/afp-basic.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-basic.md)
-
-* **Advanced Framework (Research / Extended Dialogue)**
-  [Download here](/downloads/afp-advanced.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-advanced.md)
-
-* **Mother Framework (Unified Master Prompt / Full Version)**
-  [Download here](/downloads/afp-master.md) ｜ [GitHub Raw](https://raw.githubusercontent.com/huikai79/afp-framework-site/refs/heads/main/system-prompts/afp-master.md)
-
----
-
-⚠️ Notes:
-
-* `.md` files are formatted for reading and rendering.
-* For **plain text copy**, use the **GitHub Raw** links.
+Current effectiveness claims should be judged from the public evaluation protocol, benchmark status, and reproducible results rather than from the wording of these historical prompts.

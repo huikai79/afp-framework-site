@@ -1,82 +1,45 @@
-[English version available here](README.md)
+[English](README.md)
 
-# Antifragile Prompting (AFP) Framework · SafeLoop
+# 反脆弱提示框架（AFP）· SafeLoop
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
-## 第五章实验与评估（计划稿）
+AFP／SafeLoop 是持續發展中的開放框架，目標是讓重要或可重複使用的 AI 工作流程更容易被檢查、挑戰、驗證、修正與重新測試。
 
-本章节为 **预注册草稿**，目前仅公开实验设计框架，尚未包含实验数据与分析。  
-✅ 目的：提升透明度，保障原创署名。  
-🔄 状态：待实验完成后更新数据结果。  
-📢 欢迎提出反馈或合作意向。
+## 目前公開規格
 
-**反脆弱提示 Antifragile Prompting（AFP）骨架开放 · 正式署名声明**
+**假設 → 證據 → 反證 → 決策 → 驗證 → 修正**
 
----
+SafeLoop 是包在這套流程外的回饋迴路：**產出 → 檢查 → 挑戰 → 驗證 → 修正 → 重新測試**。
 
-## 版权声明与署名机制说明
+AFP 本身不保證事實一定正確、安全、符合法規，也不代表已證明模型表現會更好。高風險或專業領域仍需要相應的領域控制與合格真人覆核。
 
-**作品名称**：反脆弱提示框架 Antifragile Prompting Framework（简称 **AFP**），同义为安全回路 **SafeLoop** 
-**版本**：普通使用版｜精简稳健骨架  
+## 目前證據狀態
 
-### 为什么选择公开？
-公开即是版权主权的证明。开源与学术界广泛认可：将作品上传至 GitHub 或预印本平台即可生成时间戳，成为有效的原创记录。这有效避免“创意被抢”。  
+- 公開規格：working specification。
+- 失敗案例：已公開初始 taxonomy；可重現案例仍在建立。
+- 評估：Pilot Protocol v0.1 已公開。
+- Benchmark 分數：尚未公布。
 
-### 许可与承诺
-- **署名权归属**：原作者为 **庄辉恺（CHING HUI KAI）**。欢迎使用、修改与引用，但请在使用中明确注明原作者与发布日期。  
-- **使用许可**：本项目文本与文档内容采用 **Creative Commons Attribution 4.0 International (CC BY 4.0)** 授权；转载与演绎需署名“CHING HUI KAI / Antifragile Prompting (AFP) Framework”。  
-- **版本更新**：未来若推出 AFP 完整版或白皮书，将继续开放并更新时间戳，欢迎持续关注与反馈。  
+在有可重現比較支持以前，不應把 AFP 描述成已經實證優於其他方法。
 
-### 公开更安全
-一旦公开，版权与时间戳都不容易被质疑。倘若他人复制却不署名，互联网记录将成为社区监督与版权证明支持。  
+## Repository 結構
 
----
+- `content/specification/` — 目前公開規格。
+- `content/evaluations/` — 評估設計、protocol 與 pilot 狀態。
+- `content/failure-cases/` — 失敗分類與後續可重現案例。
+- `benchmarks/afp-v0.1/` — 固定的 pilot pack 與 raw-output runner。
+- `system-prompts/` 與 2025 提示頁 — 歷史 Prompt 治理版本，不是目前完整規格。
+- `static/uploads/` — 歷史白皮書 PDF；2025 PDF 屬概念版典藏。
 
-## 项目说明
+## 可重現性
 
-Antifragile Prompting (AFP) / SafeLoop 是一个 **抗脆弱提示框架**，核心目标是在复杂与不确定环境中，仍能保持稳定与迭代成长。  
+Benchmark 的 validate 模式不會呼叫模型 API。Live 模式必須手動啟動、明確指定模型，並使用 repository secret；產生的 raw output 仍需後續評分，不能單靠生成結果宣稱 benchmark 成效。
 
-- **SafeLoop**：AFP 的核心机制，一个安全、可迭代的提示闭环。  
-- **定位**：不是“技巧合集”，而是一套稳健的认知与提示骨架。  
-- **应用**：适合学术研究、AI 安全、教育与复杂决策场景。  
+## 如何參與
 
----
+可透過 GitHub Issue 或 Pull Request 審查公開 protocol、重現 benchmark pack、提出可重現失敗案例，或改善文件與實作。請勿在公開討論中張貼密碼、金鑰或敏感個人資料。
 
-## 执行规则（摘要）
+## 授權
 
-本项目网站遵循一套 **最小可运行协议**，确保清晰、可复现与反脆弱成长：
-
-- **安全与证据**：合规优先；引用须有出处；若无则标〔假设〕＋〔验证路径〕。  
-- **交付原则**：先给最小可运行版本（MVP），再逐步补细节。  
-- **双方案**：每次解法至少提供“默认＋替代”路径。  
-- **风险守则（杠铃）**：85% 保守底座＋15% 探索试错。  
-- **输出骨架**：结论≤30字 → 三要点 → 步骤清单 → 对立方案 → 一句洞见。  
-- **模式档位**：FLEX（默认）、GUARD（风险提醒）、AUDIT（全审计）。  
-
-👉 完整英文系统提示： [`docs/system-prompt.md`](docs/system-prompt.md) 
-👉 完整中文系统提示： [`docs/system-prompt.zh.md`](docs/system-prompt.zh.md) 
-
----
-
-## 如何使用
-
-1. 在 `content/publication/` 下查看并引用 **AFP Whitepaper**。  
-2. 网站首页的 “Download Whitepaper” 按钮可下载最新 PDF。  
-3. 引用时请按照 CC BY 4.0 要求署名：  
-   > “Antifragile Prompting (AFP) Framework – SafeLoop”, 庄辉恺 (CHING HUI KAI), CC BY 4.0.  
-
----
-
-## 贡献与反馈
-
-- 欢迎提交 Issue 或 Pull Request，改进 AFP 白皮书或提示骨架。  
-- 讨论与想法可通过 GitHub Issues 或邮件联系。  
-
----
-
-## License
-
-本项目文本与文档内容采用  
-[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) 许可。
-
+AFP 自有文字與文件採 Creative Commons Attribution 4.0 International（CC BY 4.0）授權；第三方軟體與模板元件仍依各自授權條款。

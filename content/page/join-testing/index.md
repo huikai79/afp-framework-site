@@ -1,35 +1,28 @@
 ---
 title: "Join Testing"
-date: 2025-09-12
+date: 2026-09-10
 type: page
 url: /join-testing/
-summary: "Open call for academic and industry partners to test the AFP Framework."
+summary: "How to review, reproduce, and contribute to AFP evaluation work."
 ---
 
-# Join Testing
+# Join AFP testing
 
-We are opening the **Antifragile Prompting (AFP) Framework** for joint testing.  
-Both academia and industry are invited to participate and provide feedback.
+AFP's evaluation work is open for independent review and reproducibility checks. The current public benchmark is a text-only pilot; benchmark scores are not yet published.
 
----
+## Useful ways to contribute
 
-## Who can join?
-Researchers in AI, NLP, education technology, or related disciplines.  
-Industry partners in publishing, consulting, EdTech, or AI application fields.  
-Anyone interested in safe, resilient prompting systems.
+- Review the [evaluation protocol](/evaluations/protocol/) and identify validity or scoring problems.
+- Reproduce the public benchmark pack from the repository and report discrepancies.
+- Propose concrete failure cases with enough context to reproduce them.
+- Submit implementation or documentation improvements through GitHub.
 
----
+## How to participate
 
-## How to participate?
-Fill in our [testing form](https://forms.gle/your-form-link) with your background and area of interest.  
-You may choose the level of involvement: light testing, deep research collaboration, or co-publication.  
-We will contact you via email for the next steps.
+Use the project's GitHub repository to open an Issue or Pull Request. Please include the task, environment, model/tool versions when relevant, observed behavior, and enough evidence for another person to inspect the claim.
 
----
+[Open the AFP repository on GitHub](https://github.com/huikai79/afp-framework-site)
 
-## What do you get in return?
-Early access to AFP framework updates and demos.  
-Your name or organization may be acknowledged in future reports.  
-Regular summary reports of testing outcomes, shared with all participants.
+## Current boundary
 
-
+There is currently no separate application form, membership program, guaranteed response time, co-publication promise, or private early-access program. Any future participation process will be documented here before it is offered publicly.

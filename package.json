@@ -1,16 +1,20 @@
 {
-  "name": "hugo-blox-academic-cv-starter",
+  "name": "afp-framework-site",
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@10.14.0",
-  "description": "Academic CV starter template for Hugo Blox with Tailwind CSS v4",
+  "description": "AFP / SafeLoop public reference site",
   "scripts": {
     "dev": "hugo server --disableFastRender",
-    "build": "hugo --minify"
+    "build": "hugo --minify",
+    "search:index": "pagefind --site public"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.12",
-    "@tailwindcss/typography": "^0.5.10",
-    "tailwindcss": "^4.1.12"
+    "@tailwindcss/cli": "4.3.3",
+    "@tailwindcss/typography": "0.5.20",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "pagefind": "1.5.2"
   }
 }
