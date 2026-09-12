@@ -126,4 +126,5 @@ jobs:
         run: python scripts/production_acceptance.py "${{ env.PRODUCTION_URL }}"
 
       - name: Report GitHub Pages deployment URL
-        run: echo "GitHub Pages deployment URL: ${{ needs.deploy.outputs.page_url }}"
+        run: |
+          echo "GitHub Pages deployment URL: ${{ needs.deploy.outputs.page_url }}"
