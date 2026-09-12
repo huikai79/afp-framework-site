@@ -13,8 +13,6 @@ RETRIES = 8
 RETRY_SECONDS = 10
 TIMEOUT_SECONDS = 20
 
-# Markers are intentionally specific enough to reject an older cached site that
-# merely returns HTTP 200. They are part of the production revision contract.
 REQUIRED_PAGES = {
     "/": "A reliability layer for AI workflows",
     "/specification/": "Working Specification",
@@ -22,9 +20,11 @@ REQUIRED_PAGES = {
     "/evaluations/": "benchmark scores not yet published",
     "/evaluations/protocol/": "Publication gate",
     "/failure-cases/": "Failure Cases",
+    "/publication/afp-whitepaper/": "Historical concept edition",
     "/zh/": "AI 工作流程的可靠性層",
     "/zh/specification/": "Working Specification",
     "/zh/evaluations/protocol/": "發布門檻",
+    "/zh/publication/afp-whitepaper/": "不再把該檔案作為本站主要下載入口",
 }
 
 FORBIDDEN_PAGE_MARKERS = {
@@ -33,11 +33,7 @@ FORBIDDEN_PAGE_MARKERS = {
     "/failure-cases/": ["Jan 1, 0001"],
     "/zh/specification/": ["1月 1, 0001", "中文 (简体)", "分钟阅读时长", ">语言<"],
     "/zh/evaluations/protocol/": ["1月 1, 0001", "中文 (简体)", "分钟阅读时长", ">语言<"],
-}
-
-REQUIRED_FILES = {
-    "/uploads/afp-whitepaper-2025-annotated.pdf": "application/pdf",
-    "/uploads/afp-whitepaper-2025-annotated.zh.pdf": "application/pdf",
+    "/zh/publication/afp-whitepaper/": ["href=\"/uploads/afp-whitepaper.zh.pdf\"", "href='/uploads/afp-whitepaper.zh.pdf'"],
 }
 
 
@@ -57,14 +53,11 @@ class AssetCollector(html.parser.HTMLParser):
 
 
 def fetch(url: str) -> tuple[int, bytes, str]:
-    request = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": "AFP-production-acceptance/1.1",
-            "Cache-Control": "no-cache",
-            "Pragma": "no-cache",
-        },
-    )
+    request = urllib.request.Request(url, headers={
+        "User-Agent": "AFP-production-acceptance/1.1",
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache",
+    })
     with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
         return response.status, response.read(), response.headers.get("Content-Type", "")
 
@@ -112,20 +105,6 @@ def main() -> int:
         except Exception as exc:
             errors.append(str(exc))
 
-    for path, expected_content_type in REQUIRED_FILES.items():
-        url = urllib.parse.urljoin(base_url, path.lstrip("/"))
-        try:
-            status, body, content_type = fetch_with_retry(url)
-            if expected_content_type not in content_type.lower():
-                errors.append(f"expected {expected_content_type} for {url}, got {content_type or 'unknown'}")
-            if not body.startswith(b"%PDF-"):
-                errors.append(f"expected PDF signature for {url}")
-            if len(body) < 10_000:
-                errors.append(f"artifact unexpectedly small: {url} ({len(body)} bytes)")
-            print(f"PASS {status}: artifact {url}")
-        except Exception as exc:
-            errors.append(str(exc))
-
     if homepage_body:
         parser = AssetCollector()
         parser.feed(homepage_body.decode("utf-8", errors="replace"))
@@ -164,7 +143,7 @@ def main() -> int:
         return 1
 
     print("PRODUCTION ACCEPTANCE PASSED")
-    print("Verified authoritative protocol revision, zh-Hant UI markers, absence of undefined dates, annotated PDFs, one stylesheet, and one rendered media asset on the canonical production domain.")
+    print("Verified authoritative protocol revision, zh-Hant UI markers, absence of undefined dates, archive-status handling, one stylesheet, and one rendered media asset on the canonical production domain.")
     return 0
 
 
