@@ -2,7 +2,14 @@
 title: AFP 規格
 type: page
 summary: AFP / SafeLoop 目前的公開工作規格。
+afp_status: working
+afp_version: "0.1"
+last_substantive_update: 2026-09-12
 ---
+
+> **文件狀態：** Working Specification · **版本：** 0.1 · **最近實質更新：** 2026 年 9 月 12 日 · **評估成熟度：** 已發布 Pilot Protocol，尚未發布 benchmark 分數。
+>
+> 本頁是目前 AFP 的公開規格。2025 白皮書屬於歷史概念版本，不是現行規格。重要變更與狀態定義請見[規格沿革](/zh/specification/history/)。
 
 ## 目的
 
@@ -42,4 +49,6 @@ AFP 本身不保證事實正確、安全或合規。它提供的是一套讓這�
 
 ## 狀態
 
-**公開規格狀態：Working Specification。** 本頁定義目前的最小結構；正式 schema、機器可讀狀態與一致性測試仍在規劃中，尚未宣稱完成。
+**公開規格狀態：Working Specification 0.1。** 本頁定義目前的最小結構；正式 schema、機器可讀狀態與一致性測試仍在規劃中，尚未宣稱完成。
+
+0.1 代表本站第一次明確編列版本號的工作規格；不表示 AFP 從此版本才開始，也不構成實證優越性或外部標準化的主張。
