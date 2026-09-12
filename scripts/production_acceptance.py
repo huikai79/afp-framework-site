@@ -13,12 +13,15 @@ RETRIES = 8
 RETRY_SECONDS = 10
 TIMEOUT_SECONDS = 20
 
+# Markers are intentionally specific enough to reject an older cached site that
+# merely returns HTTP 200. They are part of the production revision contract.
 REQUIRED_PAGES = {
-    "/": "AFP",
-    "/specification/": "AFP Specification",
-    "/evaluations/": "Evaluations",
+    "/": "A reliability layer for AI workflows",
+    "/specification/": "Working Specification",
+    "/specification/history/": "Document status vocabulary",
+    "/evaluations/": "benchmark scores not yet published",
     "/failure-cases/": "Failure Cases",
-    "/zh/": "AFP",
+    "/zh/": "AI 工作流程的可靠性層",
 }
 
 
@@ -30,7 +33,8 @@ class AssetCollector(html.parser.HTMLParser):
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = dict(attrs)
-        if tag == "link" and values.get("rel") == "stylesheet" and values.get("href"):
+        rel = (values.get("rel") or "").lower().split()
+        if tag == "link" and "stylesheet" in rel and values.get("href"):
             self.stylesheets.append(values["href"] or "")
         if tag in {"img", "source"} and values.get("src"):
             self.media.append(values["src"] or "")
@@ -82,7 +86,7 @@ def main() -> int:
             if "text/html" not in content_type.lower():
                 errors.append(f"expected HTML for {url}, got {content_type or 'unknown content type'}")
             if marker not in text:
-                errors.append(f"expected marker {marker!r} missing from {url}")
+                errors.append(f"expected deployed-revision marker {marker!r} missing from {url}")
             if path == "/":
                 homepage_body = body
             print(f"PASS {status}: {url}")
@@ -128,7 +132,7 @@ def main() -> int:
         return 1
 
     print("PRODUCTION ACCEPTANCE PASSED")
-    print("Verified canonical production HTML, one stylesheet, and one rendered media asset over HTTP.")
+    print("Verified deployed-revision HTML markers, one stylesheet, and one rendered media asset on the canonical production domain.")
     return 0
 
 
