@@ -2,8 +2,8 @@
 title: AFP Specification
 type: page
 summary: Current public specification for AFP / SafeLoop.
-afP_status: working
-afP_version: "0.1"
+afp_status: working
+afp_version: "0.1"
 last_substantive_update: 2026-09-12
 ---
 
