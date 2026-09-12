@@ -13,15 +13,27 @@ RETRIES = 8
 RETRY_SECONDS = 10
 TIMEOUT_SECONDS = 20
 
-# Markers are intentionally specific enough to reject an older cached site that
-# merely returns HTTP 200. They are part of the production revision contract.
 REQUIRED_PAGES = {
     "/": "A reliability layer for AI workflows",
     "/specification/": "Working Specification",
     "/specification/history/": "Document status vocabulary",
     "/evaluations/": "benchmark scores not yet published",
+    "/evaluations/protocol/": "Publication gate",
     "/failure-cases/": "Failure Cases",
+    "/publication/afp-whitepaper/": "Historical concept edition",
     "/zh/": "AI 工作流程的可靠性層",
+    "/zh/specification/": "Working Specification",
+    "/zh/evaluations/protocol/": "發布門檻",
+    "/zh/publication/afp-whitepaper/": "不再把該檔案作為本站主要下載入口",
+}
+
+FORBIDDEN_PAGE_MARKERS = {
+    "/specification/": ["Jan 1, 0001"],
+    "/evaluations/": ["Jan 1, 0001"],
+    "/failure-cases/": ["Jan 1, 0001"],
+    "/zh/specification/": ["1月 1, 0001", "中文 (简体)", "分钟阅读时长", ">语言<"],
+    "/zh/evaluations/protocol/": ["1月 1, 0001", "中文 (简体)", "分钟阅读时长", ">语言<"],
+    "/zh/publication/afp-whitepaper/": ["href=\"/uploads/afp-whitepaper.zh.pdf\"", "href='/uploads/afp-whitepaper.zh.pdf'"],
 }
 
 
@@ -41,14 +53,11 @@ class AssetCollector(html.parser.HTMLParser):
 
 
 def fetch(url: str) -> tuple[int, bytes, str]:
-    request = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": "AFP-production-acceptance/1.0",
-            "Cache-Control": "no-cache",
-            "Pragma": "no-cache",
-        },
-    )
+    request = urllib.request.Request(url, headers={
+        "User-Agent": "AFP-production-acceptance/1.1",
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache",
+    })
     with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
         return response.status, response.read(), response.headers.get("Content-Type", "")
 
@@ -87,16 +96,18 @@ def main() -> int:
                 errors.append(f"expected HTML for {url}, got {content_type or 'unknown content type'}")
             if marker not in text:
                 errors.append(f"expected deployed-revision marker {marker!r} missing from {url}")
+            for forbidden in FORBIDDEN_PAGE_MARKERS.get(path, []):
+                if forbidden in text:
+                    errors.append(f"forbidden live marker {forbidden!r} present in {url}")
             if path == "/":
                 homepage_body = body
             print(f"PASS {status}: {url}")
-        except Exception as exc:  # acceptance check must report all failed surfaces
+        except Exception as exc:
             errors.append(str(exc))
 
     if homepage_body:
         parser = AssetCollector()
         parser.feed(homepage_body.decode("utf-8", errors="replace"))
-
         if not parser.stylesheets:
             errors.append("homepage exposes no stylesheet link")
         else:
@@ -132,7 +143,7 @@ def main() -> int:
         return 1
 
     print("PRODUCTION ACCEPTANCE PASSED")
-    print("Verified deployed-revision HTML markers, one stylesheet, and one rendered media asset on the canonical production domain.")
+    print("Verified authoritative protocol revision, zh-Hant UI markers, absence of undefined dates, archive-status handling, one stylesheet, and one rendered media asset on the canonical production domain.")
     return 0
 
 

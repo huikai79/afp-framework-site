@@ -1,0 +1,161 @@
+# AFP project override for Traditional Chinese (zh-Hant content served under Hugo language key `zh`).
+
+- id: toggle_navigation
+  translation: 切換導覽
+- id: table_of_contents
+  translation: 目錄
+- id: on_this_page
+  translation: 本頁內容
+- id: back_to_top
+  translation: 回到頂端
+- id: home
+  translation: 首頁
+- id: close
+  translation: 關閉
+- id: languages
+  translation: 語言
+
+- id: related
+  translation: 相關內容
+- id: minute_read
+  translation: 分鐘閱讀
+- id: previous
+  translation: 上一頁
+- id: next
+  translation: 下一頁
+- id: figure
+  translation: '圖%d：'
+- id: edit_page
+  translation: 編輯本頁
+
+- id: theme_selector
+  translation: 顯示偏好
+- id: theme_light
+  translation: 淺色
+- id: theme_dark
+  translation: 深色
+- id: theme_auto
+  translation: 自動
+
+- id: btn_preprint
+  translation: 預印本
+- id: btn_pdf
+  translation: PDF
+- id: btn_cite
+  translation: 引用
+- id: btn_slides
+  translation: 簡報
+- id: btn_video
+  translation: 影片
+- id: btn_code
+  translation: 程式碼
+- id: btn_dataset
+  translation: 資料集
+- id: btn_project
+  translation: 專案
+- id: btn_poster
+  translation: 海報
+- id: btn_source
+  translation: 原始文件
+- id: btn_copy
+  translation: 複製
+- id: btn_copied
+  translation: 已複製
+- id: btn_download
+  translation: 下載
+
+- id: interests
+  translation: 興趣
+- id: education
+  translation: 教育經歷
+- id: user_profile_latest
+  translation: 最新
+- id: see_certificate
+  translation: 查看證書
+- id: experience
+  translation: 工作經歷
+- id: present
+  translation: 現在
+
+- id: read_more
+  translation: 閱讀文章
+- id: more_pages
+  translation: 查看全部
+- id: more_posts
+  translation: 查看全部文章
+- id: more_talks
+  translation: 查看全部演講
+- id: more_publications
+  translation: 查看全部出版物
+
+- id: abstract
+  translation: 摘要
+- id: publication
+  translation: 出版物
+- id: publication_type
+  translation: 類型
+- id: date
+  translation: 日期
+- id: last_updated
+  translation: 最近更新
+- id: event
+  translation: 活動
+- id: location
+  translation: 地點
+- id: pub_paper_conference
+  translation: 會議論文
+- id: pub_article_journal
+  translation: 期刊論文
+- id: pub_article
+  translation: 預印本
+- id: pub_report
+  translation: 報告
+- id: pub_book
+  translation: 書籍
+- id: pub_chapter
+  translation: 章節
+- id: pub_thesis
+  translation: 論文
+- id: pub_patent
+  translation: 專利
+
+- id: open_project_site
+  translation: 前往專案網站
+- id: posts
+  translation: 文章
+- id: publications
+  translation: 出版物
+- id: talks
+  translation: 演講
+- id: projects
+  translation: 專案
+- id: slides
+  translation: 簡報
+- id: authors
+  translation: 作者
+
+- id: search
+  translation: 搜尋
+- id: search_placeholder
+  translation: 搜尋…
+- id: search_results
+  translation: 搜尋結果
+- id: search_no_results
+  translation: 找不到結果
+- id: search_common_queries
+  translation: 常見搜尋
+
+- id: page_not_found
+  translation: 找不到頁面
+- id: 404_recommendations
+  translation: 也許你在找這些內容？
+
+- id: cookie_message
+  translation: 本網站使用 Cookie 以提供必要的網站功能與更好的瀏覽體驗。
+- id: cookie_dismiss
+  translation: 知道了
+- id: cookie_learn
+  translation: 了解更多
+
+- id: published_with
+  translation: 由 {hugoblox} 建置與發布——為創作者提供免費的{repo_link}開源{/repo_link}網站工具。
