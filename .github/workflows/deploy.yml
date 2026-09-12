@@ -3,6 +3,7 @@ name: Deploy website to GitHub Pages
 env:
   WC_HUGO_VERSION: '0.148.2'
   NODE_VERSION: '24'
+  PRODUCTION_URL: 'https://afpframework.org/'
 
 on:
   push:
@@ -69,7 +70,19 @@ jobs:
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
+          HUGO_MINIFY_TDEWOLFF_HTML_KEEPCOMMENTS: 'true'
+          HUGO_ENABLEMISSINGTRANSLATIONPLACEHOLDERS: 'true'
         run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      - name: Audit Hugo output for latent render failures
+        shell: bash
+        run: |
+          set -euo pipefail
+          pattern='<!-- raw HTML omitted -->|ZgotmplZ|\[i18n\]|\(<nil>\)|(&lt;nil&gt;)|hahahugo'
+          if grep -inorE "$pattern" public/; then
+            echo 'Hugo site audit found a latent render failure marker.' >&2
+            exit 1
+          fi
 
       - name: Generate Pagefind search index
         run: pnpm run search:index
@@ -92,7 +105,26 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  production-acceptance:
+    if: github.repository_owner != 'HugoBlox'
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout deployed revision
+        uses: actions/checkout@v4
+
+      - name: Verify canonical production site over HTTP
+        run: python scripts/production_acceptance.py "${{ env.PRODUCTION_URL }}"
+
+      - name: Report GitHub Pages deployment URL
+        run: |
+          echo "GitHub Pages deployment URL: ${{ needs.deploy.outputs.page_url }}"

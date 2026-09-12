@@ -2,7 +2,14 @@
 title: AFP Specification
 type: page
 summary: Current public specification for AFP / SafeLoop.
+afp_status: working
+afp_version: "0.1"
+last_substantive_update: 2026-09-12
 ---
+
+> **Document status:** Working Specification · **Version:** 0.1 · **Last substantive update:** 12 September 2026 · **Evaluation maturity:** Pilot protocol published; benchmark scores not yet published.
+>
+> This is the current public AFP specification. The 2025 whitepaper is a historical concept edition, not the current specification. See [Specification History](/specification/history/) for material changes and status definitions.
 
 ## Purpose
 
@@ -42,4 +49,6 @@ AFP does not guarantee factual correctness, safety, or compliance by itself. It 
 
 ## Status
 
-**Public specification status: working specification.** This page defines the current minimum structure. Formal schemas, machine-readable states, and conformance tests are planned but are not claimed as complete.
+**Public specification status: Working Specification 0.1.** This page defines the current minimum structure. Formal schemas, machine-readable states, and conformance tests are planned but are not claimed as complete.
+
+Version 0.1 marks the first explicitly versioned working specification on this site. It does not imply that AFP began with this release, nor does it establish empirical superiority or external standardization.

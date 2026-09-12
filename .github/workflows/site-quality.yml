@@ -6,6 +6,7 @@ on:
     branches:
       - 'audit/**'
       - 'feature/**'
+      - 'governance/**'
 
 permissions:
   contents: read
@@ -41,7 +42,19 @@ jobs:
       - name: Build production site
         env:
           HUGO_ENVIRONMENT: production
+          HUGO_MINIFY_TDEWOLFF_HTML_KEEPCOMMENTS: 'true'
+          HUGO_ENABLEMISSINGTRANSLATIONPLACEHOLDERS: 'true'
         run: hugo --minify --baseURL 'https://afpframework.org/'
+
+      - name: Audit Hugo output for latent render failures
+        shell: bash
+        run: |
+          set -euo pipefail
+          pattern='<!-- raw HTML omitted -->|ZgotmplZ|\[i18n\]|\(<nil>\)|(&lt;nil&gt;)|hahahugo'
+          if grep -inorE "$pattern" public/; then
+            echo 'Hugo site audit found a latent render failure marker.' >&2
+            exit 1
+          fi
 
       - name: Generate Pagefind index
         run: pnpm run search:index

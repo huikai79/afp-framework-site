@@ -59,6 +59,15 @@ def check_page_links(public: Path, page_rel: str, errors: list[str]) -> None:
             errors.append(f"broken local {tag} reference in {page_rel}: {raw_url}")
 
 
+def check_marker(public: Path, page_rel: str, marker: str, errors: list[str]) -> None:
+    page = public / page_rel
+    if not page.exists():
+        return
+    text = page.read_text(encoding="utf-8", errors="replace")
+    if marker not in text:
+        errors.append(f"required content marker missing in {page_rel}: {marker}")
+
+
 def main() -> int:
     public = Path(sys.argv[1] if len(sys.argv) > 1 else "public").resolve()
     errors: list[str] = []
@@ -66,6 +75,7 @@ def main() -> int:
     required = [
         "index.html", "zh/index.html",
         "specification/index.html", "zh/specification/index.html",
+        "specification/history/index.html", "zh/specification/history/index.html",
         "evaluations/index.html", "zh/evaluations/index.html",
         "evaluations/protocol/index.html", "zh/evaluations/protocol/index.html",
         "failure-cases/index.html", "zh/failure-cases/index.html",
@@ -97,15 +107,23 @@ def main() -> int:
             if marker in text:
                 errors.append(f"{label} remains in {html.relative_to(public)}")
 
-    for page_rel in [
+    governed_pages = [
         "index.html", "zh/index.html",
         "specification/index.html", "zh/specification/index.html",
+        "specification/history/index.html", "zh/specification/history/index.html",
         "evaluations/index.html", "zh/evaluations/index.html",
         "evaluations/protocol/index.html", "zh/evaluations/protocol/index.html",
         "failure-cases/index.html", "zh/failure-cases/index.html",
         "privacy/index.html", "zh/privacy/index.html",
-    ]:
+    ]
+    for page_rel in governed_pages:
         check_page_links(public, page_rel, errors)
+
+    check_marker(public, "specification/index.html", "Working Specification", errors)
+    check_marker(public, "specification/index.html", "Version:", errors)
+    check_marker(public, "zh/specification/index.html", "Working Specification", errors)
+    check_marker(public, "specification/history/index.html", "Document status vocabulary", errors)
+    check_marker(public, "zh/specification/history/index.html", "文件狀態用語", errors)
 
     css_files = list((public / "css").glob("*.css")) if (public / "css").exists() else []
     if not css_files:
@@ -123,7 +141,7 @@ def main() -> int:
 
     html_count = sum(1 for _ in public.rglob("*.html"))
     print(f"SITE QUALITY CHECK PASSED: {html_count} HTML files")
-    print("Verified required routes, CSS, media, PDFs, Pagefind, local links, and absence of known stale outputs.")
+    print("Verified required routes, specification governance, CSS, media, PDFs, Pagefind, local links, and absence of known stale outputs.")
     return 0
 
 
