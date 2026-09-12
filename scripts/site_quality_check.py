@@ -25,17 +25,14 @@ class LinkCollector(HTMLParser):
 def local_target(public: Path, raw_url: str) -> Path | None:
     if not raw_url or raw_url.startswith(("#", "mailto:", "tel:", "javascript:")):
         return None
-
     parsed = urlparse(raw_url)
     if parsed.scheme in {"http", "https"} and parsed.netloc not in {SITE_HOST, f"www.{SITE_HOST}"}:
         return None
     if parsed.scheme and parsed.scheme not in {"http", "https"}:
         return None
-
     path = unquote(parsed.path)
     if not path or path == "/":
         return public / "index.html"
-
     relative = path.lstrip("/")
     target = public / relative
     if path.endswith("/"):
@@ -50,7 +47,6 @@ def check_page_links(public: Path, page_rel: str, errors: list[str]) -> None:
     if not page.exists():
         errors.append(f"required page missing: {page_rel}")
         return
-
     parser = LinkCollector()
     parser.feed(page.read_text(encoding="utf-8", errors="replace"))
     for tag, raw_url in parser.urls:
@@ -66,6 +62,15 @@ def check_marker(public: Path, page_rel: str, marker: str, errors: list[str]) ->
     text = page.read_text(encoding="utf-8", errors="replace")
     if marker not in text:
         errors.append(f"required content marker missing in {page_rel}: {marker}")
+
+
+def reject_marker(public: Path, page_rel: str, marker: str, label: str, errors: list[str]) -> None:
+    page = public / page_rel
+    if not page.exists():
+        return
+    text = page.read_text(encoding="utf-8", errors="replace")
+    if marker in text:
+        errors.append(f"{label} in {page_rel}: {marker}")
 
 
 def main() -> int:
@@ -118,12 +123,26 @@ def main() -> int:
     ]
     for page_rel in governed_pages:
         check_page_links(public, page_rel, errors)
+        reject_marker(public, page_rel, "Jan 1, 0001", "undefined date leaked to public UI", errors)
+        reject_marker(public, page_rel, "1月 1, 0001", "undefined date leaked to public UI", errors)
 
     check_marker(public, "specification/index.html", "Working Specification", errors)
     check_marker(public, "specification/index.html", "Version:", errors)
     check_marker(public, "zh/specification/index.html", "Working Specification", errors)
     check_marker(public, "specification/history/index.html", "Document status vocabulary", errors)
     check_marker(public, "zh/specification/history/index.html", "文件狀態用語", errors)
+    check_marker(public, "evaluations/protocol/index.html", "Fatal failures", errors)
+    check_marker(public, "evaluations/protocol/index.html", "Publication gate", errors)
+    check_marker(public, "zh/evaluations/protocol/index.html", "致命失敗", errors)
+    check_marker(public, "zh/evaluations/protocol/index.html", "發布門檻", errors)
+
+    for zh_page in [
+        "zh/index.html", "zh/specification/index.html", "zh/evaluations/index.html",
+        "zh/evaluations/protocol/index.html", "zh/failure-cases/index.html",
+    ]:
+        reject_marker(public, zh_page, "中文 (简体)", "Simplified Chinese language label leaked into zh-Hant UI", errors)
+        reject_marker(public, zh_page, "分钟阅读时长", "Simplified Chinese theme string leaked into zh-Hant UI", errors)
+        reject_marker(public, zh_page, ">语言<", "Simplified Chinese theme string leaked into zh-Hant UI", errors)
 
     css_files = list((public / "css").glob("*.css")) if (public / "css").exists() else []
     if not css_files:
@@ -141,7 +160,7 @@ def main() -> int:
 
     html_count = sum(1 for _ in public.rglob("*.html"))
     print(f"SITE QUALITY CHECK PASSED: {html_count} HTML files")
-    print("Verified required routes, specification governance, CSS, media, PDFs, Pagefind, local links, and absence of known stale outputs.")
+    print("Verified required routes, authoritative protocol markers, zh-Hant UI markers, valid page metadata, CSS, media, PDFs, Pagefind, local links, and absence of known stale outputs.")
     return 0
 
 
