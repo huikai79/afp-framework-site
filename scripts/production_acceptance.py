@@ -20,8 +20,24 @@ REQUIRED_PAGES = {
     "/specification/": "Working Specification",
     "/specification/history/": "Document status vocabulary",
     "/evaluations/": "benchmark scores not yet published",
+    "/evaluations/protocol/": "Publication gate",
     "/failure-cases/": "Failure Cases",
     "/zh/": "AI 工作流程的可靠性層",
+    "/zh/specification/": "Working Specification",
+    "/zh/evaluations/protocol/": "發布門檻",
+}
+
+FORBIDDEN_PAGE_MARKERS = {
+    "/specification/": ["Jan 1, 0001"],
+    "/evaluations/": ["Jan 1, 0001"],
+    "/failure-cases/": ["Jan 1, 0001"],
+    "/zh/specification/": ["1月 1, 0001", "中文 (简体)", "分钟阅读时长", ">语言<"],
+    "/zh/evaluations/protocol/": ["1月 1, 0001", "中文 (简体)", "分钟阅读时长", ">语言<"],
+}
+
+REQUIRED_FILES = {
+    "/uploads/afp-whitepaper-2025-annotated.pdf": "application/pdf",
+    "/uploads/afp-whitepaper-2025-annotated.zh.pdf": "application/pdf",
 }
 
 
@@ -44,7 +60,7 @@ def fetch(url: str) -> tuple[int, bytes, str]:
     request = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "AFP-production-acceptance/1.0",
+            "User-Agent": "AFP-production-acceptance/1.1",
             "Cache-Control": "no-cache",
             "Pragma": "no-cache",
         },
@@ -87,16 +103,32 @@ def main() -> int:
                 errors.append(f"expected HTML for {url}, got {content_type or 'unknown content type'}")
             if marker not in text:
                 errors.append(f"expected deployed-revision marker {marker!r} missing from {url}")
+            for forbidden in FORBIDDEN_PAGE_MARKERS.get(path, []):
+                if forbidden in text:
+                    errors.append(f"forbidden live marker {forbidden!r} present in {url}")
             if path == "/":
                 homepage_body = body
             print(f"PASS {status}: {url}")
-        except Exception as exc:  # acceptance check must report all failed surfaces
+        except Exception as exc:
+            errors.append(str(exc))
+
+    for path, expected_content_type in REQUIRED_FILES.items():
+        url = urllib.parse.urljoin(base_url, path.lstrip("/"))
+        try:
+            status, body, content_type = fetch_with_retry(url)
+            if expected_content_type not in content_type.lower():
+                errors.append(f"expected {expected_content_type} for {url}, got {content_type or 'unknown'}")
+            if not body.startswith(b"%PDF-"):
+                errors.append(f"expected PDF signature for {url}")
+            if len(body) < 10_000:
+                errors.append(f"artifact unexpectedly small: {url} ({len(body)} bytes)")
+            print(f"PASS {status}: artifact {url}")
+        except Exception as exc:
             errors.append(str(exc))
 
     if homepage_body:
         parser = AssetCollector()
         parser.feed(homepage_body.decode("utf-8", errors="replace"))
-
         if not parser.stylesheets:
             errors.append("homepage exposes no stylesheet link")
         else:
@@ -132,7 +164,7 @@ def main() -> int:
         return 1
 
     print("PRODUCTION ACCEPTANCE PASSED")
-    print("Verified deployed-revision HTML markers, one stylesheet, and one rendered media asset on the canonical production domain.")
+    print("Verified authoritative protocol revision, zh-Hant UI markers, absence of undefined dates, annotated PDFs, one stylesheet, and one rendered media asset on the canonical production domain.")
     return 0
 
 
