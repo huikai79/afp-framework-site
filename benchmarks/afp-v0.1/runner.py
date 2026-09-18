@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import datetime as dt
 import json
 import os
@@ -20,6 +21,20 @@ RESULT_DIR = ROOT / "results"
 def load_pack() -> dict:
     with PACK_PATH.open("r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def canonical_json_sha256(value: object) -> str:
+    payload = json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def pack_sha256(pack: dict) -> str:
+    return canonical_json_sha256(pack)
 
 
 def validate_pack(pack: dict) -> list[str]:
@@ -107,6 +122,7 @@ def run_openai(pack: dict, model: str, repeats: int, reasoning: str) -> pathlib.
 
     client = OpenAI(api_key=api_key)
     records: list[dict] = []
+    benchmark_pack_sha256 = pack_sha256(pack)
 
     for repeat in range(1, repeats + 1):
         for fixture in pack["fixtures"]:
@@ -120,9 +136,13 @@ def run_openai(pack: dict, model: str, repeats: int, reasoning: str) -> pathlib.
                 record = {
                     "run_id": run_id,
                     "protocol_version": pack["protocol_version"],
+                    "benchmark_pack_sha256": benchmark_pack_sha256,
                     "fixture_id": fixture["id"],
                     "treatment": treatment_id,
                     "treatment_name": treatment["name"],
+                    "treatment_instruction_sha256": canonical_json_sha256(
+                        treatment.get("instruction", "")
+                    ),
                     "repeat": repeat,
                     "provider": "openai",
                     "requested_model": model,
@@ -210,6 +230,7 @@ def main() -> int:
             f"AFP Benchmark {pack['protocol_version']} pack valid: "
             f"{len(pack['fixtures'])} fixtures × {len(pack['treatments'])} treatments"
         )
+        print(f"Pack SHA-256: {pack_sha256(pack)}")
         print("No model API was called.")
         return 0
 
