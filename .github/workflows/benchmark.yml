@@ -66,6 +66,9 @@ jobs:
       - name: Validate benchmark pack
         run: python benchmarks/afp-v0.1/runner.py validate
 
+      - name: Run benchmark runner unit tests
+        run: python -m unittest discover -s benchmarks/afp-v0.1/tests -p "test_*.py" -v
+
   live:
     if: github.event_name == 'workflow_dispatch' && inputs.mode == 'live'
     needs: validate
