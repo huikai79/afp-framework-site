@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
+import collections
 import datetime as dt
+import hashlib
 import json
 import os
 import pathlib
+import platform
 import re
 import sys
 import time
@@ -15,7 +17,9 @@ import uuid
 
 ROOT = pathlib.Path(__file__).resolve().parent
 PACK_PATH = ROOT / "pack.json"
+REQUIREMENTS_PATH = ROOT / "requirements-live.txt"
 RESULT_DIR = ROOT / "results"
+MANIFEST_SCHEMA_VERSION = 1
 
 
 def load_pack() -> dict:
@@ -31,6 +35,18 @@ def canonical_json_sha256(value: object) -> str:
         separators=(",", ":"),
     ).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
+
+
+def text_sha256(value: str) -> str:
+    return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+
+def file_sha256(path: pathlib.Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def pack_sha256(pack: dict) -> str:
@@ -97,17 +113,224 @@ def safe_name(value: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", value).strip("_") or "model"
 
 
-def write_jsonl(records: list[dict], model: str, repeats: int) -> pathlib.Path:
-    RESULT_DIR.mkdir(parents=True, exist_ok=True)
+def expected_record_count(pack: dict, repeats: int) -> int:
+    return len(pack["fixtures"]) * len(pack["treatments"]) * repeats
+
+
+def write_jsonl(
+    records: list[dict],
+    model: str,
+    repeats: int,
+    execution_id: str,
+    result_dir: pathlib.Path = RESULT_DIR,
+) -> pathlib.Path:
+    result_dir.mkdir(parents=True, exist_ok=True)
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    path = RESULT_DIR / f"raw-{stamp}-{safe_name(model)}-r{repeats}.jsonl"
+    path = result_dir / (
+        f"raw-{stamp}-{safe_name(model)}-r{repeats}-{execution_id[:8]}.jsonl"
+    )
     with path.open("w", encoding="utf-8") as f:
         for record in records:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
     return path
 
 
-def run_openai(pack: dict, model: str, repeats: int, reasoning: str) -> pathlib.Path:
+def build_run_manifest(
+    *,
+    pack: dict,
+    records: list[dict],
+    raw_path: pathlib.Path,
+    execution_id: str,
+    model: str,
+    repeats: int,
+    reasoning: str,
+    sdk_version: str | None,
+) -> dict:
+    status_counts = dict(
+        sorted(collections.Counter(
+            record.get("validity_status", "UNKNOWN") for record in records
+        ).items())
+    )
+    requirements_hash = (
+        file_sha256(REQUIREMENTS_PATH) if REQUIREMENTS_PATH.exists() else None
+    )
+
+    return {
+        "manifest_schema_version": MANIFEST_SCHEMA_VERSION,
+        "execution_id": execution_id,
+        "created_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "protocol_version": pack["protocol_version"],
+        "scope": pack.get("scope"),
+        "provider": "openai",
+        "requested_model": model,
+        "reasoning_effort": reasoning,
+        "repeats": repeats,
+        "expected_record_count": expected_record_count(pack, repeats),
+        "actual_record_count": len(records),
+        "status_counts": status_counts,
+        "lineage": {
+            "benchmark_pack_sha256": pack_sha256(pack),
+            "runner_sha256": file_sha256(pathlib.Path(__file__).resolve()),
+            "requirements_live_sha256": requirements_hash,
+            "fixture_ids": [fixture["id"] for fixture in pack["fixtures"]],
+            "treatment_ids": list(pack["treatments"].keys()),
+        },
+        "raw_results": {
+            "file": raw_path.name,
+            "sha256": file_sha256(raw_path),
+            "size_bytes": raw_path.stat().st_size,
+        },
+        "leakage_boundary": {
+            "runtime_input_fields": [
+                "base_instruction",
+                "treatment.instruction",
+                "evidence",
+                "task",
+            ],
+            "evaluation_only_fields": [
+                "expected_core",
+                "fatal_criterion",
+                "shared_rubric",
+            ],
+            "evaluation_fields_in_model_input": False,
+        },
+        "environment": {
+            "python_version": platform.python_version(),
+            "platform": platform.platform(),
+            "openai_sdk_version": sdk_version,
+        },
+        "scoring": {
+            "status": "UNSCORED",
+            "fatal_override_defined": bool(
+                pack.get("shared_rubric", {}).get("fatal_override")
+            ),
+        },
+    }
+
+
+def write_run_bundle(
+    *,
+    pack: dict,
+    records: list[dict],
+    model: str,
+    repeats: int,
+    reasoning: str,
+    execution_id: str,
+    sdk_version: str | None,
+    result_dir: pathlib.Path = RESULT_DIR,
+) -> tuple[pathlib.Path, pathlib.Path]:
+    raw_path = write_jsonl(
+        records,
+        model=model,
+        repeats=repeats,
+        execution_id=execution_id,
+        result_dir=result_dir,
+    )
+    manifest = build_run_manifest(
+        pack=pack,
+        records=records,
+        raw_path=raw_path,
+        execution_id=execution_id,
+        model=model,
+        repeats=repeats,
+        reasoning=reasoning,
+        sdk_version=sdk_version,
+    )
+    manifest_path = raw_path.with_suffix(".manifest.json")
+    with manifest_path.open("w", encoding="utf-8") as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=2, sort_keys=True)
+        f.write("\n")
+    return raw_path, manifest_path
+
+
+def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
+    manifest_path = manifest_path.resolve()
+    with manifest_path.open("r", encoding="utf-8") as f:
+        manifest = json.load(f)
+
+    errors: list[str] = []
+    warnings: list[str] = []
+
+    if manifest.get("manifest_schema_version") != MANIFEST_SCHEMA_VERSION:
+        errors.append("unsupported manifest_schema_version")
+
+    raw_name = manifest.get("raw_results", {}).get("file")
+    if not raw_name:
+        errors.append("raw_results.file is missing")
+        raw_path = manifest_path.parent / "__missing__"
+    else:
+        raw_path = manifest_path.parent / raw_name
+
+    records: list[dict] = []
+    if not raw_path.exists():
+        errors.append(f"raw result file not found: {raw_path.name}")
+    else:
+        actual_hash = file_sha256(raw_path)
+        expected_hash = manifest.get("raw_results", {}).get("sha256")
+        if actual_hash != expected_hash:
+            errors.append("raw result SHA-256 mismatch")
+
+        with raw_path.open("r", encoding="utf-8") as f:
+            for line_number, line in enumerate(f, start=1):
+                if not line.strip():
+                    continue
+                try:
+                    records.append(json.loads(line))
+                except json.JSONDecodeError as exc:
+                    errors.append(
+                        f"invalid JSONL at line {line_number}: {exc.msg}"
+                    )
+
+    expected_count = manifest.get("actual_record_count")
+    if expected_count != len(records):
+        errors.append(
+            f"record count mismatch: manifest={expected_count} actual={len(records)}"
+        )
+
+    execution_id = manifest.get("execution_id")
+    record_execution_ids = {
+        record.get("execution_id") for record in records if record.get("execution_id")
+    }
+    if records and record_execution_ids != {execution_id}:
+        errors.append("records do not share the manifest execution_id")
+
+    manifest_pack_hash = manifest.get("lineage", {}).get("benchmark_pack_sha256")
+    record_pack_hashes = {
+        record.get("benchmark_pack_sha256")
+        for record in records
+        if record.get("benchmark_pack_sha256")
+    }
+    if records and record_pack_hashes != {manifest_pack_hash}:
+        errors.append("record pack hash does not match manifest lineage")
+
+    current_pack_matches = pack_sha256(load_pack()) == manifest_pack_hash
+    current_runner_matches = (
+        file_sha256(pathlib.Path(__file__).resolve())
+        == manifest.get("lineage", {}).get("runner_sha256")
+    )
+    if not current_pack_matches:
+        warnings.append("current pack differs from the recorded run pack")
+    if not current_runner_matches:
+        warnings.append("current runner differs from the recorded run runner")
+
+    return {
+        "integrity_ok": not errors,
+        "errors": errors,
+        "warnings": warnings,
+        "manifest": manifest_path.name,
+        "raw_results": raw_path.name if raw_name else None,
+        "record_count": len(records),
+        "current_pack_matches": current_pack_matches,
+        "current_runner_matches": current_runner_matches,
+    }
+
+
+def run_openai(
+    pack: dict,
+    model: str,
+    repeats: int,
+    reasoning: str,
+) -> tuple[pathlib.Path, pathlib.Path]:
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY is required for live mode")
@@ -122,7 +345,9 @@ def run_openai(pack: dict, model: str, repeats: int, reasoning: str) -> pathlib.
 
     client = OpenAI(api_key=api_key)
     records: list[dict] = []
+    execution_id = str(uuid.uuid4())
     benchmark_pack_sha256 = pack_sha256(pack)
+    runner_hash = file_sha256(pathlib.Path(__file__).resolve())
 
     for repeat in range(1, repeats + 1):
         for fixture in pack["fixtures"]:
@@ -134,13 +359,18 @@ def run_openai(pack: dict, model: str, repeats: int, reasoning: str) -> pathlib.
                 user_input = compose_input(fixture)
 
                 record = {
+                    "execution_id": execution_id,
                     "run_id": run_id,
                     "protocol_version": pack["protocol_version"],
                     "benchmark_pack_sha256": benchmark_pack_sha256,
+                    "runner_sha256": runner_hash,
                     "fixture_id": fixture["id"],
+                    "fixture_risk": fixture["risk"],
+                    "input_sha256": text_sha256(user_input),
+                    "effective_instructions_sha256": text_sha256(instructions),
                     "treatment": treatment_id,
                     "treatment_name": treatment["name"],
-                    "treatment_instruction_sha256": canonical_json_sha256(
+                    "treatment_instruction_sha256": text_sha256(
                         treatment.get("instruction", "")
                     ),
                     "repeat": repeat,
@@ -181,14 +411,20 @@ def run_openai(pack: dict, model: str, repeats: int, reasoning: str) -> pathlib.
 
                     usage = getattr(response, "usage", None)
                     if usage is not None:
-                        record["input_tokens"] = getattr(usage, "input_tokens", None)
-                        record["output_tokens"] = getattr(usage, "output_tokens", None)
+                        record["input_tokens"] = getattr(
+                            usage, "input_tokens", None
+                        )
+                        record["output_tokens"] = getattr(
+                            usage, "output_tokens", None
+                        )
                 except Exception as exc:
                     record["validity_status"] = "INFRA_ERROR"
                     record["error_type"] = type(exc).__name__
                     record["error_message"] = str(exc)[:2000]
 
-                record["latency_ms"] = round((time.perf_counter() - started) * 1000)
+                record["latency_ms"] = round(
+                    (time.perf_counter() - started) * 1000
+                )
                 records.append(record)
                 print(
                     f"{fixture['id']} {treatment_id} r{repeat}: "
@@ -197,18 +433,32 @@ def run_openai(pack: dict, model: str, repeats: int, reasoning: str) -> pathlib.
                     flush=True,
                 )
 
-    return write_jsonl(records, model=model, repeats=repeats)
+    return write_run_bundle(
+        pack=pack,
+        records=records,
+        model=model,
+        repeats=repeats,
+        reasoning=reasoning,
+        execution_id=execution_id,
+        sdk_version=getattr(openai, "__version__", None),
+    )
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="AFP Benchmark v0.1 validation and raw-output runner"
+        description="AFP Benchmark v0.1 validation and lineage-aware runner"
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
-    sub.add_parser("validate", help="Validate the frozen benchmark pack without API calls")
+    sub.add_parser(
+        "validate",
+        help="Validate the frozen benchmark pack without API calls",
+    )
 
-    live = sub.add_parser("live", help="Generate raw A/B/C/D outputs through OpenAI")
+    live = sub.add_parser(
+        "live",
+        help="Generate raw A/B/C/D outputs through OpenAI",
+    )
     live.add_argument("--model", required=True)
     live.add_argument("--repeats", type=int, choices=[1, 3], default=1)
     live.add_argument(
@@ -217,7 +467,19 @@ def main() -> int:
         default="none",
     )
 
+    verify = sub.add_parser(
+        "verify-run",
+        help="Verify a run manifest against its raw JSONL artifact",
+    )
+    verify.add_argument("manifest", type=pathlib.Path)
+
     args = parser.parse_args()
+
+    if args.command == "verify-run":
+        report = verify_run_manifest(args.manifest)
+        print(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True))
+        return 0 if report["integrity_ok"] else 3
+
     pack = load_pack()
     errors = validate_pack(pack)
     if errors:
@@ -228,19 +490,22 @@ def main() -> int:
     if args.command == "validate":
         print(
             f"AFP Benchmark {pack['protocol_version']} pack valid: "
-            f"{len(pack['fixtures'])} fixtures × {len(pack['treatments'])} treatments"
+            f"{len(pack['fixtures'])} fixtures × "
+            f"{len(pack['treatments'])} treatments"
         )
         print(f"Pack SHA-256: {pack_sha256(pack)}")
+        print(f"Runner SHA-256: {file_sha256(pathlib.Path(__file__).resolve())}")
         print("No model API was called.")
         return 0
 
-    path = run_openai(
+    raw_path, manifest_path = run_openai(
         pack=pack,
         model=args.model,
         repeats=args.repeats,
         reasoning=args.reasoning,
     )
-    print(f"Raw results written to: {path}")
+    print(f"Raw results written to: {raw_path}")
+    print(f"Run manifest written to: {manifest_path}")
     print("Outputs are UNSCORED. Do not publish benchmark claims before grading.")
     return 0
 
