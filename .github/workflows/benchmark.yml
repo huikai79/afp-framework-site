@@ -56,12 +56,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
       - name: Setup Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
 
@@ -79,10 +79,12 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Setup Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
 
@@ -112,11 +114,24 @@ jobs:
           --repeats "${{ inputs.repeats }}"
           --reasoning "${{ inputs.reasoning }}"
 
-      - name: Upload raw outputs
+      - name: Verify run bundle integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest="$(find benchmarks/afp-v0.1/results -maxdepth 1 -name '*.manifest.json' -print -quit)"
+          if [ -z "$manifest" ]; then
+            echo "No run manifest was generated." >&2
+            exit 3
+          fi
+          python benchmarks/afp-v0.1/runner.py verify-run "$manifest"
+
+      - name: Upload raw outputs and run manifest
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: afp-benchmark-v0.1-raw-${{ github.run_id }}
-          path: benchmarks/afp-v0.1/results/*.jsonl
+          name: afp-benchmark-v0.1-run-${{ github.run_id }}
+          path: |
+            benchmarks/afp-v0.1/results/*.jsonl
+            benchmarks/afp-v0.1/results/*.manifest.json
           if-no-files-found: warn
           retention-days: 30
