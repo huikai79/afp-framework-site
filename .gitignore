@@ -75,3 +75,10 @@ Desktop.ini
 
 *.log
 npm-debug.log*
+
+# Benchmark runtime outputs (raw model generations)
+benchmarks/*/results/
+
+# Local secrets / provider configuration
+.env.*
+!.env.example
