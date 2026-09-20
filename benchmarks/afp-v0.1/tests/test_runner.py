@@ -124,11 +124,8 @@ class BenchmarkRunnerTests(unittest.TestCase):
 
     def test_run_bundle_detects_cross_execution_rows(self):
         pack = runner.load_pack()
-        record = {
-            "execution_id": "wrong-execution",
-            "benchmark_pack_sha256": runner.pack_sha256(pack),
-            "validity_status": "UNSCORED",
-        }
+        records = make_records(pack, "expected-execution")
+        records[0]["execution_id"] = "wrong-execution"
 
         with tempfile.TemporaryDirectory() as temp_dir:
             _, manifest_path = runner.write_run_bundle(
