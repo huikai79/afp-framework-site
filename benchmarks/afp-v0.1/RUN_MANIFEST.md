@@ -98,7 +98,7 @@ The hashes permit later review of exactly which input/instruction bytes a row re
 
 `verify-run` distinguishes artifact corruption from repository evolution.
 
-If the current repository pack or runner differs from the hashes recorded in an old manifest, verification emits a warning. That does not invalidate the historical artifact; it means the current checkout is not the code/data version that produced it.
+If the current repository pack, runner, source revision, or pinned live dependency file differs from the values recorded in an old manifest, verification emits a warning. That does not invalidate the historical artifact; it means the current checkout/environment is not the same version that produced it.
 
 ## Recommended publication flow
 
