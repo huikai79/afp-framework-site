@@ -262,5 +262,70 @@ class BenchmarkRunnerTests(unittest.TestCase):
 
 
 
+    def test_verify_rejects_raw_path_outside_bundle_directory(self):
+        pack = runner.load_pack()
+        execution_id = "execution-path"
+        records = make_records(pack, execution_id)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = pathlib.Path(temp_dir)
+            _, manifest_path = runner.write_run_bundle(
+                pack=pack,
+                records=records,
+                model="test-model",
+                repeats=1,
+                reasoning="none",
+                execution_id=execution_id,
+                sdk_version="test-sdk",
+                result_dir=temp_path,
+            )
+
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["raw_results"]["file"] = "../outside.jsonl"
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+            report = runner.verify_run_manifest(manifest_path)
+            self.assertFalse(report["integrity_ok"])
+            self.assertIn(
+                "raw_results.file must be a sibling filename",
+                report["errors"],
+            )
+
+    def test_verify_detects_raw_size_mismatch(self):
+        pack = runner.load_pack()
+        execution_id = "execution-size"
+        records = make_records(pack, execution_id)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, manifest_path = runner.write_run_bundle(
+                pack=pack,
+                records=records,
+                model="test-model",
+                repeats=1,
+                reasoning="none",
+                execution_id=execution_id,
+                sdk_version="test-sdk",
+                result_dir=pathlib.Path(temp_dir),
+            )
+
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["raw_results"]["size_bytes"] += 1
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+            report = runner.verify_run_manifest(manifest_path)
+            self.assertFalse(report["integrity_ok"])
+            self.assertTrue(
+                any("raw result size mismatch" in error for error in report["errors"]),
+                report,
+            )
+
+
+
 if __name__ == "__main__":
     unittest.main()
