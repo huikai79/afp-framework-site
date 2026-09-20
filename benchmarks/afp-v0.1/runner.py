@@ -11,6 +11,7 @@ import pathlib
 import platform
 import re
 import sys
+import subprocess
 import time
 import uuid
 
@@ -51,6 +52,25 @@ def file_sha256(path: pathlib.Path) -> str:
 
 def pack_sha256(pack: dict) -> str:
     return canonical_json_sha256(pack)
+
+
+def source_revision() -> str | None:
+    github_sha = os.getenv("GITHUB_SHA")
+    if github_sha:
+        return github_sha
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        value = result.stdout.strip()
+        return value or None
+    except (OSError, subprocess.SubprocessError):
+        return None
 
 
 def validate_pack(pack: dict) -> list[str]:
@@ -172,6 +192,7 @@ def build_run_manifest(
             "benchmark_pack_sha256": pack_sha256(pack),
             "runner_sha256": file_sha256(pathlib.Path(__file__).resolve()),
             "requirements_live_sha256": requirements_hash,
+            "source_revision": source_revision(),
             "fixture_ids": [fixture["id"] for fixture in pack["fixtures"]],
             "treatment_ids": list(pack["treatments"].keys()),
         },
@@ -376,10 +397,19 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
         file_sha256(pathlib.Path(__file__).resolve())
         == manifest_runner_hash
     )
+    recorded_revision = manifest.get("lineage", {}).get("source_revision")
+    current_revision = source_revision()
+    current_revision_matches = (
+        recorded_revision is None
+        or current_revision is None
+        or recorded_revision == current_revision
+    )
     if not current_pack_matches:
         warnings.append("current pack differs from the recorded run pack")
     if not current_runner_matches:
         warnings.append("current runner differs from the recorded run runner")
+    if not current_revision_matches:
+        warnings.append("current source revision differs from the recorded run revision")
 
     return {
         "integrity_ok": not errors,
@@ -390,6 +420,7 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
         "record_count": len(records),
         "current_pack_matches": current_pack_matches,
         "current_runner_matches": current_runner_matches,
+        "current_revision_matches": current_revision_matches,
     }
 
 
