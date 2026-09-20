@@ -27,6 +27,10 @@ def make_records(pack, execution_id, count=None):
                     {
                         "execution_id": execution_id,
                         "run_id": f"run-{sequence}",
+                        "protocol_version": pack["protocol_version"],
+                        "provider": "openai",
+                        "requested_model": "test-model",
+                        "reasoning_effort": "none",
                         "benchmark_pack_sha256": runner.pack_sha256(pack),
                         "runner_sha256": runner_hash,
                         "fixture_id": fixture["id"],
@@ -322,6 +326,86 @@ class BenchmarkRunnerTests(unittest.TestCase):
             self.assertFalse(report["integrity_ok"])
             self.assertTrue(
                 any("raw result size mismatch" in error for error in report["errors"]),
+                report,
+            )
+
+
+
+    def test_verify_detects_duplicate_run_ids(self):
+        pack = runner.load_pack()
+        execution_id = "execution-duplicate-run-id"
+        records = make_records(pack, execution_id)
+        records[1]["run_id"] = records[0]["run_id"]
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, manifest_path = runner.write_run_bundle(
+                pack=pack,
+                records=records,
+                model="test-model",
+                repeats=1,
+                reasoning="none",
+                execution_id=execution_id,
+                sdk_version="test-sdk",
+                result_dir=pathlib.Path(temp_dir),
+            )
+
+            report = runner.verify_run_manifest(manifest_path)
+            self.assertFalse(report["integrity_ok"])
+            self.assertIn("duplicate run_id values detected", report["errors"])
+
+    def test_verify_detects_mixed_requested_models(self):
+        pack = runner.load_pack()
+        execution_id = "execution-mixed-model"
+        records = make_records(pack, execution_id)
+        records[0]["requested_model"] = "other-model"
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, manifest_path = runner.write_run_bundle(
+                pack=pack,
+                records=records,
+                model="test-model",
+                repeats=1,
+                reasoning="none",
+                execution_id=execution_id,
+                sdk_version="test-sdk",
+                result_dir=pathlib.Path(temp_dir),
+            )
+
+            report = runner.verify_run_manifest(manifest_path)
+            self.assertFalse(report["integrity_ok"])
+            self.assertTrue(
+                any(
+                    "record requested_model values do not match manifest" in error
+                    for error in report["errors"]
+                ),
+                report,
+            )
+
+    def test_verify_recomputes_input_hash_when_pack_matches(self):
+        pack = runner.load_pack()
+        execution_id = "execution-input-hash"
+        records = make_records(pack, execution_id)
+        records[0]["input_sha256"] = "wrong-input-hash"
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, manifest_path = runner.write_run_bundle(
+                pack=pack,
+                records=records,
+                model="test-model",
+                repeats=1,
+                reasoning="none",
+                execution_id=execution_id,
+                sdk_version="test-sdk",
+                result_dir=pathlib.Path(temp_dir),
+            )
+
+            report = runner.verify_run_manifest(manifest_path)
+            self.assertFalse(report["integrity_ok"])
+            self.assertTrue(
+                any(
+                    "input_sha256 does not match pack" in error
+                    for error in report["errors"]
+                ),
                 report,
             )
 
