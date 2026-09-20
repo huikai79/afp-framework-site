@@ -281,10 +281,18 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
                         f"invalid JSONL at line {line_number}: {exc.msg}"
                     )
 
-    expected_count = manifest.get("actual_record_count")
+    declared_actual_count = manifest.get("actual_record_count")
+    if declared_actual_count != len(records):
+        errors.append(
+            "record count mismatch: "
+            f"manifest={declared_actual_count} actual={len(records)}"
+        )
+
+    expected_count = manifest.get("expected_record_count")
     if expected_count != len(records):
         errors.append(
-            f"record count mismatch: manifest={expected_count} actual={len(records)}"
+            "incomplete benchmark execution: "
+            f"expected={expected_count} actual={len(records)}"
         )
 
     execution_id = manifest.get("execution_id")
