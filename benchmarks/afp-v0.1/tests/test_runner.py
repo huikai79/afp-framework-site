@@ -102,6 +102,7 @@ class BenchmarkRunnerTests(unittest.TestCase):
             self.assertFalse(
                 manifest["leakage_boundary"]["evaluation_fields_in_model_input"]
             )
+            self.assertIn("source_revision", manifest["lineage"])
 
             report = runner.verify_run_manifest(manifest_path)
             self.assertTrue(report["integrity_ok"], report)
