@@ -396,6 +396,10 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
 
     required_row_lineage_fields = (
         "run_id",
+        "protocol_version",
+        "provider",
+        "requested_model",
+        "reasoning_effort",
         "fixture_id",
         "fixture_risk",
         "treatment",
@@ -426,6 +430,31 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
             + (f": {preview}" if preview else "")
         )
 
+    run_ids = [record.get("run_id") for record in records if record.get("run_id")]
+    if len(run_ids) != len(set(run_ids)):
+        errors.append("duplicate run_id values detected")
+
+    expected_protocol = manifest.get("protocol_version")
+    expected_provider = manifest.get("provider")
+    expected_model = manifest.get("requested_model")
+    expected_reasoning = manifest.get("reasoning_effort")
+
+    for field, expected_value in (
+        ("protocol_version", expected_protocol),
+        ("provider", expected_provider),
+        ("requested_model", expected_model),
+        ("reasoning_effort", expected_reasoning),
+    ):
+        values = {
+            record.get(field)
+            for record in records
+            if record.get(field) not in (None, "")
+        }
+        if records and values != {expected_value}:
+            errors.append(
+                f"record {field} values do not match manifest: {sorted(values)!r}"
+            )
+
     actual_status_counts = dict(
         sorted(collections.Counter(
             record.get("validity_status", "UNKNOWN") for record in records
@@ -434,7 +463,8 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
     if manifest.get("status_counts") != actual_status_counts:
         errors.append("status_counts do not match raw records")
 
-    current_pack_matches = pack_sha256(load_pack()) == manifest_pack_hash
+    current_pack = load_pack()
+    current_pack_matches = pack_sha256(current_pack) == manifest_pack_hash
     current_runner_matches = (
         file_sha256(pathlib.Path(__file__).resolve())
         == manifest_runner_hash
@@ -446,6 +476,45 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
         or current_revision is None
         or recorded_revision == current_revision
     )
+    if current_pack_matches:
+        fixtures_by_id = {
+            fixture["id"]: fixture for fixture in current_pack["fixtures"]
+        }
+        treatments_by_id = current_pack["treatments"]
+
+        for index, record in enumerate(records, start=1):
+            fixture = fixtures_by_id.get(record.get("fixture_id"))
+            treatment = treatments_by_id.get(record.get("treatment"))
+            if fixture is None or treatment is None:
+                continue
+
+            expected_input_hash = text_sha256(compose_input(fixture))
+            expected_instruction_hash = text_sha256(
+                compose_instructions(fixture, treatment)
+            )
+            expected_treatment_hash = text_sha256(
+                treatment.get("instruction", "")
+            )
+
+            if record.get("input_sha256") != expected_input_hash:
+                errors.append(f"row {index} input_sha256 does not match pack")
+            if (
+                record.get("effective_instructions_sha256")
+                != expected_instruction_hash
+            ):
+                errors.append(
+                    f"row {index} effective_instructions_sha256 does not match pack"
+                )
+            if (
+                record.get("treatment_instruction_sha256")
+                != expected_treatment_hash
+            ):
+                errors.append(
+                    f"row {index} treatment_instruction_sha256 does not match pack"
+                )
+            if record.get("fixture_risk") != fixture.get("risk"):
+                errors.append(f"row {index} fixture_risk does not match pack")
+
     if not current_pack_matches:
         warnings.append("current pack differs from the recorded run pack")
     if not current_runner_matches:
