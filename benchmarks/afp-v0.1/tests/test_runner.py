@@ -13,6 +13,19 @@ assert SPEC.loader is not None
 SPEC.loader.exec_module(runner)
 
 
+def make_records(pack, execution_id, count=None):
+    total = count if count is not None else runner.expected_record_count(pack, 1)
+    return [
+        {
+            "execution_id": execution_id,
+            "benchmark_pack_sha256": runner.pack_sha256(pack),
+            "validity_status": "UNSCORED",
+            "sequence": index,
+        }
+        for index in range(total)
+    ]
+
+
 class BenchmarkRunnerTests(unittest.TestCase):
     def test_pack_validates(self):
         pack = runner.load_pack()
@@ -51,16 +64,12 @@ class BenchmarkRunnerTests(unittest.TestCase):
     def test_run_bundle_round_trip_verifies(self):
         pack = runner.load_pack()
         execution_id = "execution-test"
-        record = {
-            "execution_id": execution_id,
-            "benchmark_pack_sha256": runner.pack_sha256(pack),
-            "validity_status": "UNSCORED",
-        }
+        records = make_records(pack, execution_id)
 
         with tempfile.TemporaryDirectory() as temp_dir:
             raw_path, manifest_path = runner.write_run_bundle(
                 pack=pack,
-                records=[record],
+                records=records,
                 model="test-model",
                 repeats=1,
                 reasoning="none",
@@ -74,7 +83,7 @@ class BenchmarkRunnerTests(unittest.TestCase):
 
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             self.assertEqual(manifest["execution_id"], execution_id)
-            self.assertEqual(manifest["actual_record_count"], 1)
+            self.assertEqual(manifest["actual_record_count"], 32)
             self.assertEqual(
                 manifest["raw_results"]["sha256"],
                 runner.file_sha256(raw_path),
@@ -85,21 +94,17 @@ class BenchmarkRunnerTests(unittest.TestCase):
 
             report = runner.verify_run_manifest(manifest_path)
             self.assertTrue(report["integrity_ok"], report)
-            self.assertEqual(report["record_count"], 1)
+            self.assertEqual(report["record_count"], 32)
 
     def test_run_bundle_detects_tampered_raw_results(self):
         pack = runner.load_pack()
         execution_id = "execution-tamper"
-        record = {
-            "execution_id": execution_id,
-            "benchmark_pack_sha256": runner.pack_sha256(pack),
-            "validity_status": "UNSCORED",
-        }
+        records = make_records(pack, execution_id)
 
         with tempfile.TemporaryDirectory() as temp_dir:
             raw_path, manifest_path = runner.write_run_bundle(
                 pack=pack,
-                records=[record],
+                records=records,
                 model="test-model",
                 repeats=1,
                 reasoning="none",
@@ -128,7 +133,7 @@ class BenchmarkRunnerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp_dir:
             _, manifest_path = runner.write_run_bundle(
                 pack=pack,
-                records=[record],
+                records=records,
                 model="test-model",
                 repeats=1,
                 reasoning="none",
@@ -143,6 +148,35 @@ class BenchmarkRunnerTests(unittest.TestCase):
                 "records do not share the manifest execution_id",
                 report["errors"],
             )
+
+
+    def test_run_bundle_detects_incomplete_execution(self):
+        pack = runner.load_pack()
+        execution_id = "execution-incomplete"
+        records = make_records(pack, execution_id, count=31)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, manifest_path = runner.write_run_bundle(
+                pack=pack,
+                records=records,
+                model="test-model",
+                repeats=1,
+                reasoning="none",
+                execution_id=execution_id,
+                sdk_version="test-sdk",
+                result_dir=pathlib.Path(temp_dir),
+            )
+
+            report = runner.verify_run_manifest(manifest_path)
+            self.assertFalse(report["integrity_ok"])
+            self.assertTrue(
+                any(
+                    "incomplete benchmark execution" in error
+                    for error in report["errors"]
+                ),
+                report,
+            )
+
 
 
 if __name__ == "__main__":
