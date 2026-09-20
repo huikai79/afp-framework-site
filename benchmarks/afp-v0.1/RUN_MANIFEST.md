@@ -33,9 +33,15 @@ python benchmarks/afp-v0.1/runner.py verify-run \
   benchmarks/afp-v0.1/results/<run>.manifest.json
 ```
 
-A successful verification means the raw file matches the manifest and the rows belong to the recorded execution/pack lineage.
+A successful verification means the raw file and manifest are internally consistent and the rows match the recorded execution/pack/runner lineage.
 
 ## What the manifest does NOT prove
+
+### Internal consistency is not authenticity
+
+The manifest is a sidecar file, not a cryptographic signature or trusted timestamp. If someone can rewrite both the raw JSONL and the manifest, they can recompute the hashes. Verification therefore detects accidental corruption, raw-only modification, incomplete/cross-run bundles, and lineage inconsistency; it does not prove that a bundle came from a trusted actor or has never been jointly rewritten.
+
+For stronger provenance, preserve the bundle in an access-controlled artifact store and record the CI run / source revision that produced it. A future signed-attestation layer can strengthen this further.
 
 ### Integrity is not exact reproducibility
 
