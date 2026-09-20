@@ -14,16 +14,27 @@ SPEC.loader.exec_module(runner)
 
 
 def make_records(pack, execution_id, count=None):
-    total = count if count is not None else runner.expected_record_count(pack, 1)
-    return [
-        {
-            "execution_id": execution_id,
-            "benchmark_pack_sha256": runner.pack_sha256(pack),
-            "validity_status": "UNSCORED",
-            "sequence": index,
-        }
-        for index in range(total)
-    ]
+    rows = []
+    sequence = 0
+    runner_hash = runner.file_sha256(RUNNER_PATH)
+    for repeat in range(1, 2):
+        for fixture in pack["fixtures"]:
+            for treatment_id in pack["treatments"]:
+                rows.append(
+                    {
+                        "execution_id": execution_id,
+                        "benchmark_pack_sha256": runner.pack_sha256(pack),
+                        "runner_sha256": runner_hash,
+                        "fixture_id": fixture["id"],
+                        "treatment": treatment_id,
+                        "repeat": repeat,
+                        "validity_status": "UNSCORED",
+                        "sequence": sequence,
+                    }
+                )
+                sequence += 1
+
+    return rows if count is None else rows[:count]
 
 
 class BenchmarkRunnerTests(unittest.TestCase):
@@ -172,6 +183,68 @@ class BenchmarkRunnerTests(unittest.TestCase):
                     for error in report["errors"]
                 ),
                 report,
+            )
+
+
+
+    def test_run_bundle_detects_duplicate_case_rows(self):
+        pack = runner.load_pack()
+        execution_id = "execution-duplicate"
+        records = make_records(pack, execution_id)
+        records[-1] = dict(records[0])
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, manifest_path = runner.write_run_bundle(
+                pack=pack,
+                records=records,
+                model="test-model",
+                repeats=1,
+                reasoning="none",
+                execution_id=execution_id,
+                sdk_version="test-sdk",
+                result_dir=pathlib.Path(temp_dir),
+            )
+
+            report = runner.verify_run_manifest(manifest_path)
+            self.assertFalse(report["integrity_ok"])
+            self.assertTrue(
+                any(
+                    "duplicate fixture/treatment/repeat rows" in error
+                    for error in report["errors"]
+                ),
+                report,
+            )
+            self.assertTrue(
+                any(
+                    "missing fixture/treatment/repeat rows" in error
+                    for error in report["errors"]
+                ),
+                report,
+            )
+
+    def test_run_bundle_detects_runner_lineage_mismatch(self):
+        pack = runner.load_pack()
+        execution_id = "execution-runner-mismatch"
+        records = make_records(pack, execution_id)
+        records[0]["runner_sha256"] = "wrong-runner"
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, manifest_path = runner.write_run_bundle(
+                pack=pack,
+                records=records,
+                model="test-model",
+                repeats=1,
+                reasoning="none",
+                execution_id=execution_id,
+                sdk_version="test-sdk",
+                result_dir=pathlib.Path(temp_dir),
+            )
+
+            report = runner.verify_run_manifest(manifest_path)
+            self.assertFalse(report["integrity_ok"])
+            self.assertIn(
+                "record runner hash does not match manifest lineage",
+                report["errors"],
             )
 
 
