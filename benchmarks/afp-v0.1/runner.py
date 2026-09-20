@@ -476,6 +476,18 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
         or current_revision is None
         or recorded_revision == current_revision
     )
+
+    recorded_requirements_hash = manifest.get("lineage", {}).get(
+        "requirements_live_sha256"
+    )
+    current_requirements_hash = (
+        file_sha256(REQUIREMENTS_PATH) if REQUIREMENTS_PATH.exists() else None
+    )
+    current_requirements_matches = (
+        recorded_requirements_hash is None
+        or current_requirements_hash is None
+        or recorded_requirements_hash == current_requirements_hash
+    )
     if current_pack_matches:
         fixtures_by_id = {
             fixture["id"]: fixture for fixture in current_pack["fixtures"]
@@ -521,6 +533,10 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
         warnings.append("current runner differs from the recorded run runner")
     if not current_revision_matches:
         warnings.append("current source revision differs from the recorded run revision")
+    if not current_requirements_matches:
+        warnings.append(
+            "current live dependency pins differ from the recorded run requirements"
+        )
 
     return {
         "integrity_ok": not errors,
@@ -532,6 +548,7 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
         "current_pack_matches": current_pack_matches,
         "current_runner_matches": current_runner_matches,
         "current_revision_matches": current_revision_matches,
+        "current_requirements_matches": current_requirements_matches,
     }
 
 
