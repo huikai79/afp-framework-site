@@ -20,14 +20,26 @@ def make_records(pack, execution_id, count=None):
     for repeat in range(1, 2):
         for fixture in pack["fixtures"]:
             for treatment_id in pack["treatments"]:
+                treatment = pack["treatments"][treatment_id]
+                instructions = runner.compose_instructions(fixture, treatment)
+                user_input = runner.compose_input(fixture)
                 rows.append(
                     {
                         "execution_id": execution_id,
+                        "run_id": f"run-{sequence}",
                         "benchmark_pack_sha256": runner.pack_sha256(pack),
                         "runner_sha256": runner_hash,
                         "fixture_id": fixture["id"],
+                        "fixture_risk": fixture["risk"],
                         "treatment": treatment_id,
+                        "treatment_instruction_sha256": runner.text_sha256(
+                            treatment.get("instruction", "")
+                        ),
                         "repeat": repeat,
+                        "input_sha256": runner.text_sha256(user_input),
+                        "effective_instructions_sha256": runner.text_sha256(
+                            instructions
+                        ),
                         "validity_status": "UNSCORED",
                         "sequence": sequence,
                     }
