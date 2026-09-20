@@ -311,10 +311,70 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
     if records and record_pack_hashes != {manifest_pack_hash}:
         errors.append("record pack hash does not match manifest lineage")
 
+    manifest_runner_hash = manifest.get("lineage", {}).get("runner_sha256")
+    record_runner_hashes = {
+        record.get("runner_sha256")
+        for record in records
+        if record.get("runner_sha256")
+    }
+    if records and record_runner_hashes != {manifest_runner_hash}:
+        errors.append("record runner hash does not match manifest lineage")
+
+    fixture_ids = manifest.get("lineage", {}).get("fixture_ids") or []
+    treatment_ids = manifest.get("lineage", {}).get("treatment_ids") or []
+    repeats = manifest.get("repeats")
+
+    if isinstance(repeats, int) and repeats > 0:
+        expected_shape_count = len(fixture_ids) * len(treatment_ids) * repeats
+        if manifest.get("expected_record_count") != expected_shape_count:
+            errors.append(
+                "manifest expected_record_count does not match fixture/treatment/repeat shape"
+            )
+
+        expected_keys = {
+            (fixture_id, treatment_id, repeat)
+            for repeat in range(1, repeats + 1)
+            for fixture_id in fixture_ids
+            for treatment_id in treatment_ids
+        }
+        actual_keys = [
+            (
+                record.get("fixture_id"),
+                record.get("treatment"),
+                record.get("repeat"),
+            )
+            for record in records
+        ]
+        actual_key_set = set(actual_keys)
+
+        if len(actual_keys) != len(actual_key_set):
+            errors.append("duplicate fixture/treatment/repeat rows detected")
+
+        missing_keys = expected_keys - actual_key_set
+        unexpected_keys = actual_key_set - expected_keys
+        if missing_keys:
+            errors.append(
+                f"missing fixture/treatment/repeat rows: {len(missing_keys)}"
+            )
+        if unexpected_keys:
+            errors.append(
+                f"unexpected fixture/treatment/repeat rows: {len(unexpected_keys)}"
+            )
+    else:
+        errors.append("invalid repeats value in manifest")
+
+    actual_status_counts = dict(
+        sorted(collections.Counter(
+            record.get("validity_status", "UNKNOWN") for record in records
+        ).items())
+    )
+    if manifest.get("status_counts") != actual_status_counts:
+        errors.append("status_counts do not match raw records")
+
     current_pack_matches = pack_sha256(load_pack()) == manifest_pack_hash
     current_runner_matches = (
         file_sha256(pathlib.Path(__file__).resolve())
-        == manifest.get("lineage", {}).get("runner_sha256")
+        == manifest_runner_hash
     )
     if not current_pack_matches:
         warnings.append("current pack differs from the recorded run pack")
