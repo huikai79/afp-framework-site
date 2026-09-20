@@ -384,6 +384,38 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
     else:
         errors.append("invalid repeats value in manifest")
 
+    required_row_lineage_fields = (
+        "run_id",
+        "fixture_id",
+        "fixture_risk",
+        "treatment",
+        "repeat",
+        "benchmark_pack_sha256",
+        "runner_sha256",
+        "input_sha256",
+        "effective_instructions_sha256",
+        "treatment_instruction_sha256",
+        "validity_status",
+    )
+    missing_row_lineage = []
+    for index, record in enumerate(records, start=1):
+        missing = [
+            field for field in required_row_lineage_fields
+            if record.get(field) in (None, "")
+        ]
+        if missing:
+            missing_row_lineage.append((index, missing))
+
+    if missing_row_lineage:
+        preview = "; ".join(
+            f"row {index}: {','.join(fields)}"
+            for index, fields in missing_row_lineage[:5]
+        )
+        errors.append(
+            "rows missing required lineage fields"
+            + (f": {preview}" if preview else "")
+        )
+
     actual_status_counts = dict(
         sorted(collections.Counter(
             record.get("validity_status", "UNKNOWN") for record in records
