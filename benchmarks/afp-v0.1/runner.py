@@ -279,6 +279,9 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
     if not raw_name:
         errors.append("raw_results.file is missing")
         raw_path = manifest_path.parent / "__missing__"
+    elif pathlib.Path(raw_name).name != raw_name:
+        errors.append("raw_results.file must be a sibling filename")
+        raw_path = manifest_path.parent / "__invalid__"
     else:
         raw_path = manifest_path.parent / raw_name
 
@@ -290,6 +293,13 @@ def verify_run_manifest(manifest_path: pathlib.Path) -> dict:
         expected_hash = manifest.get("raw_results", {}).get("sha256")
         if actual_hash != expected_hash:
             errors.append("raw result SHA-256 mismatch")
+
+        expected_size = manifest.get("raw_results", {}).get("size_bytes")
+        actual_size = raw_path.stat().st_size
+        if expected_size != actual_size:
+            errors.append(
+                f"raw result size mismatch: manifest={expected_size} actual={actual_size}"
+            )
 
         with raw_path.open("r", encoding="utf-8") as f:
             for line_number, line in enumerate(f, start=1):
