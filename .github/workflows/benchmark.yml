@@ -26,6 +26,38 @@ on:
         required: true
         default: false
         type: boolean
+      scope:
+        description: 'smoke = 1 case; full = complete A/B/C/D benchmark matrix'
+        required: true
+        default: smoke
+        type: choice
+        options:
+          - smoke
+          - full
+      fixture_id:
+        description: 'Fixture used when scope=smoke'
+        required: true
+        default: P01
+        type: choice
+        options:
+          - P01
+          - P02
+          - P03
+          - P04
+          - P05
+          - P06
+          - P07
+          - P08
+      treatment:
+        description: 'Treatment used when scope=smoke'
+        required: true
+        default: A
+        type: choice
+        options:
+          - A
+          - B
+          - C
+          - D
       model:
         description: 'OpenAI model ID for live mode'
         required: false
@@ -113,11 +145,25 @@ jobs:
         run: python -m pip install --disable-pip-version-check -r benchmarks/afp-v0.1/requirements-live.txt
 
       - name: Generate raw benchmark outputs
-        run: >-
-          python benchmarks/afp-v0.1/runner.py live
-          --model "${{ inputs.model }}"
-          --repeats "${{ inputs.repeats }}"
-          --reasoning "${{ inputs.reasoning }}"
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          args=(
+            python benchmarks/afp-v0.1/runner.py live
+            --model "${{ inputs.model }}"
+            --repeats "${{ inputs.repeats }}"
+            --reasoning "${{ inputs.reasoning }}"
+          )
+
+          if [ "${{ inputs.scope }}" = "smoke" ]; then
+            args+=(
+              --fixture-id "${{ inputs.fixture_id }}"
+              --treatment "${{ inputs.treatment }}"
+            )
+          fi
+
+          "${args[@]}"
 
       - name: Verify run bundle integrity
         shell: bash
@@ -129,6 +175,24 @@ jobs:
             exit 3
           fi
           python benchmarks/afp-v0.1/runner.py verify-run "$manifest"
+
+      - name: Verify requested live scope
+        if: inputs.scope == 'smoke'
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest="$(find benchmarks/afp-v0.1/results -maxdepth 1 -name '*.manifest.json' -print -quit)"
+          python - "$manifest" <<'PY'
+          import json
+          import pathlib
+          import sys
+
+          manifest = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+          assert manifest["expected_record_count"] == 1, manifest
+          assert manifest["actual_record_count"] == 1, manifest
+          assert manifest["scoring"]["status"] == "UNSCORED", manifest
+          print("AFP one-case live smoke scope: PASS")
+          PY
 
       - name: Upload raw outputs and run manifest
         if: always()
