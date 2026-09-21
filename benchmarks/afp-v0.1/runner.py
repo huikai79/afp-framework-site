@@ -185,7 +185,11 @@ def build_run_manifest(
         "requested_model": model,
         "reasoning_effort": reasoning,
         "repeats": repeats,
-        "expected_record_count": expected_record_count(pack, repeats),
+        "expected_record_count": (
+            len({record.get("fixture_id") for record in records})
+            * len({record.get("treatment") for record in records})
+            * repeats
+        ),
         "actual_record_count": len(records),
         "status_counts": status_counts,
         "lineage": {
@@ -193,8 +197,16 @@ def build_run_manifest(
             "runner_sha256": file_sha256(pathlib.Path(__file__).resolve()),
             "requirements_live_sha256": requirements_hash,
             "source_revision": source_revision(),
-            "fixture_ids": [fixture["id"] for fixture in pack["fixtures"]],
-            "treatment_ids": list(pack["treatments"].keys()),
+            "fixture_ids": [
+                fixture["id"]
+                for fixture in pack["fixtures"]
+                if fixture["id"] in {record.get("fixture_id") for record in records}
+            ],
+            "treatment_ids": [
+                treatment_id
+                for treatment_id in pack["treatments"].keys()
+                if treatment_id in {record.get("treatment") for record in records}
+            ],
         },
         "raw_results": {
             "file": raw_path.name,
@@ -557,6 +569,8 @@ def run_openai(
     model: str,
     repeats: int,
     reasoning: str,
+    fixture_id: str | None = None,
+    treatment_id: str | None = None,
 ) -> tuple[pathlib.Path, pathlib.Path]:
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
@@ -576,9 +590,25 @@ def run_openai(
     benchmark_pack_sha256 = pack_sha256(pack)
     runner_hash = file_sha256(pathlib.Path(__file__).resolve())
 
+    fixtures = [
+        fixture
+        for fixture in pack["fixtures"]
+        if fixture_id is None or fixture["id"] == fixture_id
+    ]
+    treatments = [
+        (current_treatment_id, treatment)
+        for current_treatment_id, treatment in pack["treatments"].items()
+        if treatment_id is None or current_treatment_id == treatment_id
+    ]
+
+    if fixture_id is not None and not fixtures:
+        raise RuntimeError(f"Unknown fixture_id: {fixture_id}")
+    if treatment_id is not None and not treatments:
+        raise RuntimeError(f"Unknown treatment_id: {treatment_id}")
+
     for repeat in range(1, repeats + 1):
-        for fixture in pack["fixtures"]:
-            for treatment_id, treatment in pack["treatments"].items():
+        for fixture in fixtures:
+            for current_treatment_id, treatment in treatments:
                 run_id = str(uuid.uuid4())
                 started_at = dt.datetime.now(dt.timezone.utc)
                 started = time.perf_counter()
@@ -595,7 +625,7 @@ def run_openai(
                     "fixture_risk": fixture["risk"],
                     "input_sha256": text_sha256(user_input),
                     "effective_instructions_sha256": text_sha256(instructions),
-                    "treatment": treatment_id,
+                    "treatment": current_treatment_id,
                     "treatment_name": treatment["name"],
                     "treatment_instruction_sha256": text_sha256(
                         treatment.get("instruction", "")
@@ -654,7 +684,7 @@ def run_openai(
                 )
                 records.append(record)
                 print(
-                    f"{fixture['id']} {treatment_id} r{repeat}: "
+                    f"{fixture['id']} {current_treatment_id} r{repeat}: "
                     f"{record['validity_status']} "
                     f"{record['latency_ms']}ms",
                     flush=True,
@@ -693,6 +723,15 @@ def main() -> int:
         choices=["default", "none", "low", "medium", "high", "xhigh", "max"],
         default="none",
     )
+    live.add_argument(
+        "--fixture-id",
+        help="Optional single fixture ID for a minimal live smoke run",
+    )
+    live.add_argument(
+        "--treatment",
+        choices=["A", "B", "C", "D"],
+        help="Optional single treatment for a minimal live smoke run",
+    )
 
     verify = sub.add_parser(
         "verify-run",
@@ -730,6 +769,8 @@ def main() -> int:
         model=args.model,
         repeats=args.repeats,
         reasoning=args.reasoning,
+        fixture_id=args.fixture_id,
+        treatment_id=args.treatment,
     )
     print(f"Raw results written to: {raw_path}")
     print(f"Run manifest written to: {manifest_path}")
