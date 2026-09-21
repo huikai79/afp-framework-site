@@ -1,0 +1,132 @@
+name: AFP Live Smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_external_costs:
+        description: I understand this runs one paid/live OpenAI request
+        required: true
+        type: boolean
+        default: false
+      model:
+        description: OpenAI model ID
+        required: true
+        type: string
+      reasoning:
+        description: Reasoning effort
+        required: true
+        default: none
+        type: choice
+        options:
+          - default
+          - none
+          - low
+          - medium
+          - high
+          - xhigh
+          - max
+      fixture_id:
+        description: Smoke fixture
+        required: true
+        default: P01
+        type: choice
+        options:
+          - P01
+          - P02
+          - P03
+          - P04
+          - P05
+          - P06
+          - P07
+          - P08
+      treatment:
+        description: Smoke treatment
+        required: true
+        default: A
+        type: choice
+        options:
+          - A
+          - B
+          - C
+          - D
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    if: inputs.confirm_external_costs == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: Require API credential
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$OPENAI_API_KEY" || {
+            echo "OPENAI_API_KEY repository secret is required." >&2
+            exit 2
+          }
+
+      - name: Install pinned live dependency
+        run: python -m pip install --disable-pip-version-check -r benchmarks/afp-v0.1/requirements-live.txt
+
+      - name: Validate benchmark pack and tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python benchmarks/afp-v0.1/runner.py validate
+          python -m unittest discover -s benchmarks/afp-v0.1/tests -p "test_*.py" -v
+
+      - name: Run one live smoke case
+        shell: bash
+        run: |
+          set -euo pipefail
+          python benchmarks/afp-v0.1/runner.py live             --model "${{ inputs.model }}"             --repeats 1             --reasoning "${{ inputs.reasoning }}"             --fixture-id "${{ inputs.fixture_id }}"             --treatment "${{ inputs.treatment }}"
+
+      - name: Verify smoke run bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest="$(find benchmarks/afp-v0.1/results -maxdepth 1 -name '*.manifest.json' -print -quit)"
+          test -n "$manifest" || {
+            echo "No smoke manifest was generated." >&2
+            exit 3
+          }
+          python benchmarks/afp-v0.1/runner.py verify-run "$manifest"
+
+          python - "$manifest" <<'PY'
+          import json
+          import pathlib
+          import sys
+
+          manifest = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+          assert manifest["expected_record_count"] == 1, manifest
+          assert manifest["actual_record_count"] == 1, manifest
+          assert manifest["scoring"]["status"] == "UNSCORED", manifest
+          print("AFP live smoke bundle: PASS")
+          PY
+
+      - name: Upload smoke evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: afp-live-smoke-${{ github.run_id }}
+          path: |
+            benchmarks/afp-v0.1/results/*.jsonl
+            benchmarks/afp-v0.1/results/*.manifest.json
+          if-no-files-found: warn
+          retention-days: 30
