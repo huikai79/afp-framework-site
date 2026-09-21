@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - main
-      - v3/evaluation-lineage
     paths:
       - 'benchmarks/afp-v0.1/**'
       - '.github/workflows/benchmark.yml'
@@ -110,13 +109,7 @@ jobs:
         run: python -m unittest discover -s benchmarks/afp-v0.1/tests -p "test_*.py" -v
 
   live:
-    if: >-
-      (github.event_name == 'workflow_dispatch' &&
-       inputs.mode == 'live' &&
-       inputs.confirm_external_costs == true) ||
-      (github.event_name == 'push' &&
-       github.ref == 'refs/heads/v3/evaluation-lineage' &&
-       github.event.head_commit.message == 'ci: authorized afp live smoke run')
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'live' && inputs.confirm_external_costs == true
     needs: validate
     runs-on: ubuntu-latest
     env:
