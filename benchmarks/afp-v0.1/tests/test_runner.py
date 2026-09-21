@@ -450,6 +450,8 @@ class BenchmarkRunnerTests(unittest.TestCase):
                 execution_id=execution_id,
                 sdk_version="test-sdk",
                 result_dir=pathlib.Path(temp_dir),
+                expected_fixture_ids=[fixture["id"]],
+                expected_treatment_ids=[treatment_id],
             )
 
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
