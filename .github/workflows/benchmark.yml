@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - v3/evaluation-lineage
     paths:
       - 'benchmarks/afp-v0.1/**'
       - '.github/workflows/benchmark.yml'
@@ -109,11 +110,23 @@ jobs:
         run: python -m unittest discover -s benchmarks/afp-v0.1/tests -p "test_*.py" -v
 
   live:
-    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'live' && inputs.confirm_external_costs == true
+    if: >-
+      (github.event_name == 'workflow_dispatch' &&
+       inputs.mode == 'live' &&
+       inputs.confirm_external_costs == true) ||
+      (github.event_name == 'push' &&
+       github.ref == 'refs/heads/v3/evaluation-lineage' &&
+       github.event.head_commit.message == 'ci: authorized afp live smoke run')
     needs: validate
     runs-on: ubuntu-latest
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      LIVE_MODEL: ${{ github.event_name == 'workflow_dispatch' && inputs.model || 'gpt-5.6-luna' }}
+      LIVE_REPEATS: ${{ github.event_name == 'workflow_dispatch' && inputs.repeats || '1' }}
+      LIVE_REASONING: ${{ github.event_name == 'workflow_dispatch' && inputs.reasoning || 'none' }}
+      LIVE_SCOPE: ${{ github.event_name == 'workflow_dispatch' && inputs.scope || 'smoke' }}
+      LIVE_FIXTURE_ID: ${{ github.event_name == 'workflow_dispatch' && inputs.fixture_id || 'P01' }}
+      LIVE_TREATMENT: ${{ github.event_name == 'workflow_dispatch' && inputs.treatment || 'A' }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -128,7 +141,7 @@ jobs:
       - name: Require explicit model ID
         shell: bash
         run: |
-          if [ -z "${{ inputs.model }}" ]; then
+          if [ -z "${{ env.LIVE_MODEL }}" ]; then
             echo "Live mode requires a non-empty model input." >&2
             exit 2
           fi
@@ -151,15 +164,15 @@ jobs:
 
           args=(
             python benchmarks/afp-v0.1/runner.py live
-            --model "${{ inputs.model }}"
-            --repeats "${{ inputs.repeats }}"
-            --reasoning "${{ inputs.reasoning }}"
+            --model "${{ env.LIVE_MODEL }}"
+            --repeats "${{ env.LIVE_REPEATS }}"
+            --reasoning "${{ env.LIVE_REASONING }}"
           )
 
-          if [ "${{ inputs.scope }}" = "smoke" ]; then
+          if [ "${{ env.LIVE_SCOPE }}" = "smoke" ]; then
             args+=(
-              --fixture-id "${{ inputs.fixture_id }}"
-              --treatment "${{ inputs.treatment }}"
+              --fixture-id "${{ env.LIVE_FIXTURE_ID }}"
+              --treatment "${{ env.LIVE_TREATMENT }}"
             )
           fi
 
