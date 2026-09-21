@@ -114,3 +114,33 @@ validate pack
 ```
 
 Do not skip from “bundle verified” directly to “framework works better.”
+
+
+## Pre-merge live smoke gate
+
+The existing **AFP Benchmark v0.1** workflow supports a manual live smoke run on the v3 branch.
+
+Recommended first external check:
+
+```text
+mode = live
+confirm_external_costs = true
+scope = smoke
+fixture_id = P01
+treatment = A
+repeats = 1
+reasoning = none
+model = <explicit OpenAI model ID>
+```
+
+With `scope=smoke`, the runner issues exactly one fixture/treatment/repeat request and the workflow requires the generated manifest to report:
+
+- `expected_record_count == 1`
+- `actual_record_count == 1`
+- `scoring.status == UNSCORED`
+
+The live job is manual and requires the `OPENAI_API_KEY` repository secret. Pull-request and push validation do not call the model API.
+
+Only after the one-case smoke succeeds should `scope=full` be considered. Full scope executes the complete fixture × treatment matrix and may create materially more billable model usage.
+
+A successful live smoke proves provider/API/runner/bundle integration for the selected single case. It does not establish benchmark quality, comparative superiority, grading validity, or statistical significance.
