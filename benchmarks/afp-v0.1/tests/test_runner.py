@@ -411,5 +411,58 @@ class BenchmarkRunnerTests(unittest.TestCase):
 
 
 
+    def test_run_bundle_supports_single_fixture_treatment_smoke_shape(self):
+        pack = runner.load_pack()
+        execution_id = "execution-smoke"
+        fixture = pack["fixtures"][0]
+        treatment_id = "A"
+        treatment = pack["treatments"][treatment_id]
+        instructions = runner.compose_instructions(fixture, treatment)
+        user_input = runner.compose_input(fixture)
+        records = [{
+            "execution_id": execution_id,
+            "run_id": "run-smoke",
+            "protocol_version": pack["protocol_version"],
+            "provider": "openai",
+            "requested_model": "test-model",
+            "reasoning_effort": "none",
+            "benchmark_pack_sha256": runner.pack_sha256(pack),
+            "runner_sha256": runner.file_sha256(RUNNER_PATH),
+            "fixture_id": fixture["id"],
+            "fixture_risk": fixture["risk"],
+            "treatment": treatment_id,
+            "treatment_instruction_sha256": runner.text_sha256(
+                treatment.get("instruction", "")
+            ),
+            "repeat": 1,
+            "input_sha256": runner.text_sha256(user_input),
+            "effective_instructions_sha256": runner.text_sha256(instructions),
+            "validity_status": "UNSCORED",
+        }]
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, manifest_path = runner.write_run_bundle(
+                pack=pack,
+                records=records,
+                model="test-model",
+                repeats=1,
+                reasoning="none",
+                execution_id=execution_id,
+                sdk_version="test-sdk",
+                result_dir=pathlib.Path(temp_dir),
+            )
+
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            self.assertEqual(manifest["expected_record_count"], 1)
+            self.assertEqual(manifest["actual_record_count"], 1)
+            self.assertEqual(manifest["lineage"]["fixture_ids"], [fixture["id"]])
+            self.assertEqual(manifest["lineage"]["treatment_ids"], [treatment_id])
+
+            report = runner.verify_run_manifest(manifest_path)
+            self.assertTrue(report["integrity_ok"], report)
+            self.assertEqual(report["record_count"], 1)
+
+
+
 if __name__ == "__main__":
     unittest.main()
