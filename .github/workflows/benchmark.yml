@@ -190,7 +190,7 @@ jobs:
           python benchmarks/afp-v0.1/runner.py verify-run "$manifest"
 
       - name: Verify requested live scope
-        if: inputs.scope == 'smoke'
+        if: env.LIVE_SCOPE == 'smoke'
         shell: bash
         run: |
           set -euo pipefail
