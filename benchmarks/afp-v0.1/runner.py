@@ -165,6 +165,8 @@ def build_run_manifest(
     repeats: int,
     reasoning: str,
     sdk_version: str | None,
+    expected_fixture_ids: list[str] | None = None,
+    expected_treatment_ids: list[str] | None = None,
 ) -> dict:
     status_counts = dict(
         sorted(collections.Counter(
@@ -173,6 +175,13 @@ def build_run_manifest(
     )
     requirements_hash = (
         file_sha256(REQUIREMENTS_PATH) if REQUIREMENTS_PATH.exists() else None
+    )
+
+    expected_fixture_ids = expected_fixture_ids or [
+        fixture["id"] for fixture in pack["fixtures"]
+    ]
+    expected_treatment_ids = expected_treatment_ids or list(
+        pack["treatments"].keys()
     )
 
     return {
@@ -186,8 +195,8 @@ def build_run_manifest(
         "reasoning_effort": reasoning,
         "repeats": repeats,
         "expected_record_count": (
-            len({record.get("fixture_id") for record in records})
-            * len({record.get("treatment") for record in records})
+            len(expected_fixture_ids)
+            * len(expected_treatment_ids)
             * repeats
         ),
         "actual_record_count": len(records),
@@ -197,16 +206,8 @@ def build_run_manifest(
             "runner_sha256": file_sha256(pathlib.Path(__file__).resolve()),
             "requirements_live_sha256": requirements_hash,
             "source_revision": source_revision(),
-            "fixture_ids": [
-                fixture["id"]
-                for fixture in pack["fixtures"]
-                if fixture["id"] in {record.get("fixture_id") for record in records}
-            ],
-            "treatment_ids": [
-                treatment_id
-                for treatment_id in pack["treatments"].keys()
-                if treatment_id in {record.get("treatment") for record in records}
-            ],
+            "fixture_ids": expected_fixture_ids,
+            "treatment_ids": expected_treatment_ids,
         },
         "raw_results": {
             "file": raw_path.name,
@@ -251,6 +252,8 @@ def write_run_bundle(
     execution_id: str,
     sdk_version: str | None,
     result_dir: pathlib.Path = RESULT_DIR,
+    expected_fixture_ids: list[str] | None = None,
+    expected_treatment_ids: list[str] | None = None,
 ) -> tuple[pathlib.Path, pathlib.Path]:
     raw_path = write_jsonl(
         records,
@@ -268,6 +271,8 @@ def write_run_bundle(
         repeats=repeats,
         reasoning=reasoning,
         sdk_version=sdk_version,
+        expected_fixture_ids=expected_fixture_ids,
+        expected_treatment_ids=expected_treatment_ids,
     )
     manifest_path = raw_path.with_suffix(".manifest.json")
     with manifest_path.open("w", encoding="utf-8") as f:
@@ -698,6 +703,10 @@ def run_openai(
         reasoning=reasoning,
         execution_id=execution_id,
         sdk_version=getattr(openai, "__version__", None),
+        expected_fixture_ids=[fixture["id"] for fixture in fixtures],
+        expected_treatment_ids=[
+            current_treatment_id for current_treatment_id, _ in treatments
+        ],
     )
 
 
