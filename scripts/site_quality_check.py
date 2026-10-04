@@ -119,6 +119,7 @@ def main() -> int:
         "evaluations/index.html", "zh/evaluations/index.html",
         "evaluations/protocol/index.html", "zh/evaluations/protocol/index.html",
         "failure-cases/index.html", "zh/failure-cases/index.html",
+        "publication/afp-whitepaper/index.html", "zh/publication/afp-whitepaper/index.html",
         "privacy/index.html", "zh/privacy/index.html",
     ]
     for page_rel in governed_pages:
@@ -135,6 +136,14 @@ def main() -> int:
     check_marker(public, "evaluations/protocol/index.html", "Publication gate", errors)
     check_marker(public, "zh/evaluations/protocol/index.html", "致命失敗", errors)
     check_marker(public, "zh/evaluations/protocol/index.html", "發布門檻", errors)
+    check_marker(public, "evaluations/index.html", "agentic/runtime assurance", errors)
+    check_marker(public, "zh/evaluations/index.html", "Agentic／runtime assurance", errors)
+    check_marker(public, "failure-cases/index.html", "AFP-F009", errors)
+    check_marker(public, "zh/failure-cases/index.html", "AFP-F009", errors)
+    check_marker(public, "publication/afp-whitepaper/index.html", "Annotated historical reading guide", errors)
+    check_marker(public, "zh/publication/afp-whitepaper/index.html", "歷史典藏導讀", errors)
+    reject_marker(public, "publication/afp-whitepaper/index.html", 'href="/uploads/afp-whitepaper.pdf"', "historical PDF is still promoted as a direct archive download", errors)
+    reject_marker(public, "zh/publication/afp-whitepaper/index.html", 'href="/uploads/afp-whitepaper.zh.pdf"', "historical Chinese PDF is still promoted as a direct archive download", errors)
 
     for zh_page in [
         "zh/index.html", "zh/specification/index.html", "zh/evaluations/index.html",

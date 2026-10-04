@@ -67,6 +67,18 @@ summary: 用可重現方式比較 AFP 與較簡單基線的公開評估計畫。
 
 [閱讀 AFP Benchmark Protocol v0.1 →](/zh/evaluations/protocol/)
 
+## 下一階段：Agentic／runtime assurance
+
+文字層 Pilot 不能代替完整 Agent 安全測試。後續評估應分開檢查：
+
+- **context trust** — 未受信任的檢索內容、網頁、檔案或工具結果，是否會不當覆蓋治理指令；
+- **tool／action authorization** — 高影響行動是否會在正確的授權邊界停止；
+- **持久狀態或 memory integrity** — 過期、已被取代或受污染的狀態，是否會錯誤影響後續決策；
+- **execution evidence** — 系統是否能區分「準備執行」「收到回應」與「已獨立觀察到結果」；
+- **recovery／rollback** — 執行或驗證失敗時，是否存在可用的恢復與回復路徑。
+
+這些是**規劃中的評估維度**，目前不是 AFP conformance requirement，也不能被引用為 AFP 已證明 Agent 安全的證據。
+
 ## 報告原則
 
 AFP 在可重現比較支持之前，不應宣稱已被實證證明優於其他方法。負面結果、混合結果、原始輸出、grader 理由與排除項目都應一起公開。

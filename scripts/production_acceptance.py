@@ -17,14 +17,16 @@ REQUIRED_PAGES = {
     "/": "A reliability layer for AI workflows",
     "/specification/": "Working Specification",
     "/specification/history/": "Document status vocabulary",
-    "/evaluations/": "benchmark scores not yet published",
+    "/evaluations/": "agentic/runtime assurance",
     "/evaluations/protocol/": "Publication gate",
-    "/failure-cases/": "Failure Cases",
-    "/publication/afp-whitepaper/": "Historical concept edition",
+    "/failure-cases/": "AFP-F009",
+    "/publication/afp-whitepaper/": "Annotated historical reading guide",
     "/zh/": "AI 工作流程的可靠性層",
     "/zh/specification/": "Working Specification",
+    "/zh/evaluations/": "Agentic／runtime assurance",
     "/zh/evaluations/protocol/": "發布門檻",
-    "/zh/publication/afp-whitepaper/": "不再把該檔案作為本站主要下載入口",
+    "/zh/failure-cases/": "AFP-F009",
+    "/zh/publication/afp-whitepaper/": "歷史典藏導讀",
 }
 
 FORBIDDEN_PAGE_MARKERS = {
@@ -33,6 +35,7 @@ FORBIDDEN_PAGE_MARKERS = {
     "/failure-cases/": ["Jan 1, 0001"],
     "/zh/specification/": ["1月 1, 0001", "中文 (简体)", "分钟阅读时长", ">语言<"],
     "/zh/evaluations/protocol/": ["1月 1, 0001", "中文 (简体)", "分钟阅读时长", ">语言<"],
+    "/publication/afp-whitepaper/": ["href=\"/uploads/afp-whitepaper.pdf\"", "href='/uploads/afp-whitepaper.pdf'"],
     "/zh/publication/afp-whitepaper/": ["href=\"/uploads/afp-whitepaper.zh.pdf\"", "href='/uploads/afp-whitepaper.zh.pdf'"],
 }
 

@@ -40,6 +40,21 @@ A workflow moves from analysis into an external or consequential action without 
 
 **Expected response:** separate recommendation from execution and stop at the authorization boundary.
 
+### AFP-F007 · Untrusted context overrides governing instructions
+Retrieved text, a webpage, a file, or a tool result is treated as a higher-authority instruction even though it should only be analyzed as data.
+
+**Expected response:** preserve instruction/source hierarchy, classify untrusted embedded instructions as data, and refuse unauthorized scope changes.
+
+### AFP-F008 · Stale or superseded state/memory
+A prior decision, cached value, persistent memory, or earlier context is reused after the conditions that made it valid have changed.
+
+**Expected response:** track freshness, supersession, and lineage for load-bearing state; revalidate it before it controls a consequential decision.
+
+### AFP-F009 · Execution claim without execution evidence
+The system reports that a send, write, deploy, purchase, or other external action succeeded based only on intent, a command, or an acknowledgement.
+
+**Expected response:** distinguish requested, acknowledged, and observed states; verify the externally visible outcome and preserve a recovery/rollback path when consequences are material.
+
 ## Evidence standard for future cases
 
 Concrete published cases should include, where possible:
