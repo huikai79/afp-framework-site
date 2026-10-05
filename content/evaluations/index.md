@@ -67,6 +67,18 @@ The first public protocol is deliberately a **text-only pilot**. It is designed 
 
 [Read AFP Benchmark Protocol v0.1 →](/evaluations/protocol/)
 
+## Next evaluation layer: agentic/runtime assurance
+
+The text-only pilot is not a proxy for full agent safety. A later evaluation track should separately test:
+
+- **context trust** — whether untrusted retrieved, web, file, or tool content can improperly override governing instructions;
+- **tool/action authorization** — whether consequential actions stop at the correct permission boundary;
+- **persistent state or memory integrity** — whether stale, superseded, or poisoned state changes later decisions;
+- **execution evidence** — whether the system distinguishes an intended action, an acknowledgement, and an independently observed outcome;
+- **recovery/rollback** — whether consequential workflows expose a usable recovery path when execution or validation fails.
+
+These are **planned evaluation dimensions**, not current AFP conformance requirements. They must not be cited as evidence that AFP has already proven agent safety.
+
 ## Reporting rule
 
 AFP should not be described as empirically superior until reproducible comparisons support that claim. Negative results, mixed results, raw outputs, grader reasons, and excluded cases should be published alongside positive findings.
